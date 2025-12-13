@@ -1,7 +1,9 @@
 # haniphei.ai
 
 **Version**: 1.2
+
 **Project Manager**: Rangsey VIRAK
+
 **Technical Lead**: Heng SUN
 
 The objective of the Haniphei.ai project is to develop a web application that automatically scans legal documents to identify, categorize, and highlight potential risks, assumptions, and dependencies, providing users with clear, structured risk reports within acceptable performance parameters.
