@@ -1,6 +1,6 @@
 # Project Context for AI Agent (gemini.md)
 
-## Project Name: RiskSkanner.ai
+## Project Name: haniphei.ai
 
 ## Mission
 To create a web application that automatically scans project documents (like contracts and proposals) to identify and highlight potential risks, assumptions, and dependencies.

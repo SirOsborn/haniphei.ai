@@ -50,6 +50,40 @@ pip install -r requirements.txt
 # (Further instructions to run as a service will be added here)
 ```
 
+## Git Workflow: Feature Branching (GitHub Flow)
+
+For our team, we will adopt a Feature Branching (GitHub Flow) workflow. This approach emphasizes stability, collaboration, and code quality.
+
+1.  **The `main` Branch is Sacred:**
+    *   The `main` branch is the single primary branch and must always be stable and deployable.
+    *   **Rule:** Direct pushes to `main` are strictly prohibited. All changes must go through a Pull Request.
+
+2.  **Create Branches for Everything:**
+    *   For any new feature, bug fix, or task, developers must create a new branch from the latest `main`.
+    *   **Branch Naming Convention:** Use `[initials]/[type]/[short-description]`.
+        *   `[initials]`: e.g., `sh` for Sun Heng, `rs` for Ry Satya, `ys` for Yung Sreyneang, `kr` for Kaem Sreyneath, `vr` for Virak Rangsey.
+        *   `[type]`: Use `feat` for new features, `fix` for bug fixes, `docs` for documentation updates, `refactor` for refactoring.
+        *   `[short-description]`: A concise, hyphen-separated description of the task.
+        *   **Examples:** `sh/feat/integrate-new-risk-model`, `rs/fix/database-connection`, `ys/docs/update-ui-guide`
+
+3.  **Develop and Commit on Your Branch:**
+    *   Work on your dedicated feature branch, making small, logical commits. Your work is isolated and won't affect `main` until merged.
+
+4.  **Open a Pull Request (PR):**
+    *   Once your work on the branch is complete, stable, and tested, open a Pull Request (PR) to merge your branch into `main`.
+
+5.  **Review and Discuss:**
+    *   The PR serves as a platform for code review and discussion.
+    *   **Reviewers:**
+        *   **Sun Heng (Technical Lead):** Reviews most PRs, especially `ai-service` and critical `backend` changes.
+        *   **Ry Satya (Backend Lead):** Reviews all `backend` PRs.
+        *   **Yung Sreyneang (Frontend Lead):** Reviews all `frontend` PRs.
+        *   If a change impacts multiple services (e.g., API changes affecting frontend and backend), relevant leads should co-review.
+
+6.  **Merge into `main`:**
+    *   After the PR is approved by the required reviewers and all automated checks (CI/CD, tests, linting) pass, the branch can be merged into `main`.
+    *   The feature branch should then be deleted.
+
 ## Guiding Principle: The API is the Contract
 
 The backend, AI service, and frontend teams work independently but are connected by the API. The API specification is the single source of truth, allowing for parallel development. The frontend can rely on mock data that matches the API contract, while the backend can develop the core logic independently.
