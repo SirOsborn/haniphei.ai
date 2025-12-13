@@ -1,4 +1,4 @@
-# RiskSkanner.ai
+# haniphei.ai
 
 **Version**: 1.2
 **Project Manager**: Rangsey VIRAK
