@@ -1,0 +1,11 @@
+# OCR and Text Extraction
+pytesseract
+PyMuPDF
+python-docx
+Pillow
+
+# AI/ML and Data Processing
+pandas
+numpy
+scikit-learn
+spacy
