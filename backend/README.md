@@ -1,4 +1,4 @@
-# Backend for RiskSkanner.ai
+# Backend for Haniphei.ai
 
 This directory houses the backend web server for the project. It is built using FastAPI and serves a REST API that the frontend application consumes. Its main role is to handle HTTP requests, validate data, and communicate with the `ai-service` to get the risk analysis results.
 

@@ -1,6 +1,6 @@
-# Frontend for RiskSkanner.ai
+# Frontend for Haniphei.ai
 
-This directory contains the frontend application, which provides the user interface for interacting with the RiskSkanner tool. It is a modern, client-side application built with React.
+This directory contains the frontend application, which provides the user interface for interacting with the Haniphei.ai tool. It is a modern, client-side application built with React.
 
 ## Technology Stack
 - **Framework**: React
