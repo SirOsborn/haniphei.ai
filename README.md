@@ -15,13 +15,29 @@ Haniphei.ai is an automated web-based platform designed to revolutionize the leg
 At its core, the application serves as an intelligent risk-assessment engine. Users upload legal documents, which the system automatically parses and analyzes to detect critical risks, hidden assumptions, and operational dependencies. Rather than just displaying text, Haniphei.ai transforms unstructured legal data into a clear, interactive, and structured risk report.
 The system focuses on delivering these insights within optimized performance parameters, ensuring that legal professionals and business users can assess document viability and liability in a fraction of the time required for traditional manual review.
 
+## 📚 Documentation
+
+### For All Teams
+- **[PROJECT_BLUEPRINT.md](./PROJECT_BLUEPRINT.md)** - Complete architecture, API contracts, deployment guide
+- **[QUICKSTART.md](./QUICKSTART.md)** - Test all services locally in 10 minutes
+
+### For Specific Teams
+- **[frontend/BACKEND_API_INTEGRATION.md](./frontend/BACKEND_API_INTEGRATION.md)** - Frontend team: How to integrate with backend
+- **[backend/AI_SERVICE_INTEGRATION.md](./backend/AI_SERVICE_INTEGRATION.md)** - Backend team: How to integrate with AI service
+- **[ai-service/README.md](./ai-service/README.md)** - AI service: Configuration, hybrid approach, OCR setup
+
 ## Architecture
 
 The project is divided into three main components:
 
-1.  **[Frontend](./frontend/README.md)**: A React application that provides a clean and intuitive user interface for uploading files or pasting text.
-2.  **[Backend](./backend/README.md)**: A FastAPI server that acts as the central API. It handles user requests and communicates with the AI service to perform the analysis.
-3.  **[AI Service](./ai-service/README.md)**: A Python-based service responsible for the heavy lifting of text extraction (OCR, document parsing) and risk analysis using NLP and machine learning.
+1.  **[Frontend](./frontend/README.md)**: React + Vite + TailwindCSS UI for document upload and risk visualization (Port: 5173)
+2.  **[Backend](./backend/README.md)**: FastAPI server for authentication, database, and proxying to AI service (Port: 8000)
+3.  **[AI Service](./ai-service/README.md)**: Hybrid AI engine with OCR, LLM (Gemini/Ollama), and ML model training (Port: 8082)
+
+**Tech Highlights**:
+- 🆓 **Free LLM**: Google Gemini (cloud) or Ollama (local)
+- 🔄 **Hybrid AI**: Starts with LLM, transitions to local model as it learns
+- 🎯 **Student-Friendly**: Deployable on free tiers (Vercel, Render, etc.)
 
 For detailed information about each component, please refer to the `README.md` file within its respective directory.
 
@@ -47,10 +63,16 @@ uvicorn main:app --reload
 ### 3. Start the AI Service
 ```bash
 cd ai-service
-# It's recommended to use a virtual environment
+# Copy and configure environment
+cp .env.example .env
+# Edit .env: Add GEMINI_API_KEY (get free at https://aistudio.google.com/app/apikey)
+# Install dependencies
 pip install -r requirements.txt
-# (Further instructions to run as a service will be added here)
+# Run service
+uvicorn main:app --reload --host 0.0.0.0 --port 8082
 ```
+
+**For complete setup and testing guide**, see [QUICKSTART.md](./QUICKSTART.md)
 
 ## Git Workflow: Feature Branching (GitHub Flow)
 

@@ -35,3 +35,12 @@ yarn-error.log*
 .vscode/
 *.swp
 *~
+
+# Environment variables
+.env
+*.env
+!.env.example
+
+# AI Service data and models
+ai-service/data/
+ai-service/models/

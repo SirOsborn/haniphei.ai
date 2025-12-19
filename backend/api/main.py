@@ -7,4 +7,4 @@ app.include_router(scan.router)
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the RiskSkanner.ai API"}
+    return {"message": "Welcome to the Haniphei.ai API"}

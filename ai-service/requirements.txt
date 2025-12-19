@@ -9,3 +9,11 @@ pandas
 numpy
 scikit-learn
 spacy
+
+# Service, LLMs, and utilities
+fastapi
+uvicorn
+google-generativeai
+httpx
+python-dotenv
+joblib
