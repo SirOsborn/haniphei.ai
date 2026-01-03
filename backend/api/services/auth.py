@@ -4,12 +4,14 @@ from typing import Optional
 from uuid import UUID
 
 from api.db.tables import User
-from api.core.auth import get_password_hash, verify_password
+from passlib.context import CryptContext
 from api.models.auth import UserRegister, UserLogin
 
 
 class AuthService:
     """Service for handling authentication business logic"""
+
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     async def get_user_by_email(self, db: AsyncSession, email: str) -> Optional[User]:
         """Retrieve a user by email"""
@@ -23,7 +25,7 @@ class AuthService:
 
     async def register_user(self, db: AsyncSession, user_data: UserRegister) -> User:
         """Register a new user"""
-        hashed_password = get_password_hash(user_data.password)
+        hashed_password = self.pwd_context.hash(user_data.password)
 
         new_user = User(
             email=user_data.email,
@@ -44,7 +46,7 @@ class AuthService:
         """Authenticate user with email and password"""
         user = await self.get_user_by_email(db, credentials.email)
 
-        if not user or not verify_password(credentials.password, user.password_hash):
+        if not user or not self.pwd_context.verify(credentials.password, user.password_hash):
             return None
 
         return user
