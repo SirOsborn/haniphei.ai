@@ -16,6 +16,16 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showDropdown, setShowDropdown] = useState(false);
   const [expandedRisk, setExpandedRisk] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profileData, setProfileData] = useState({
+    firstName: "John",
+    lastName: "Doe",
+    email: "john.doe@example.com",
+    userType: "freelancer"
+  });
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -49,6 +59,17 @@ function App() {
     setDocumentType("contract");
     setShowDropdown(false);
     setSelectedCategory("all");
+  };
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const findings = [
@@ -162,9 +183,26 @@ function App() {
               </h1>
             </div>
             <div className="flex gap-4">
-              <button className="btn-secondary">About</button>
-              <button className="btn-secondary">Profile</button>
-              {step === 1 && (
+              <button 
+                onClick={() => {
+                  setStep(1);
+                  setShowProfile(false);
+                  setShowAbout(false);
+                }}
+                className="btn-secondary"
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => {
+                  setShowProfile(!showProfile);
+                  setShowAbout(false);
+                }}
+                className="btn-secondary"
+              >
+                Profile
+              </button>
+              {step === 1 && !showProfile && (
                 <button onClick={handleScanDocument} className="btn-primary">
                   Scan Document
                 </button>
@@ -194,8 +232,141 @@ function App() {
           </nav>
         </header>
 
+        {/* Profile Page */}
+        {showProfile && (
+          <main className="max-w-3xl mx-auto px-8 py-12">
+            <div className="glass-card">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold text-white">Account Information</h2>
+                {!isEditingProfile && (
+                  <button 
+                    onClick={() => setIsEditingProfile(true)}
+                    className="btn-secondary text-sm"
+                  >
+                    Edit Profile
+                  </button>
+                )}
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-8">
+                {/* Profile Picture */}
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-bold shadow-lg overflow-hidden">
+                    {profilePhoto ? (
+                      <img src={profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                    ) : (
+                      <span>{profileData.firstName.charAt(0)}{profileData.lastName.charAt(0)}</span>
+                    )}
+                  </div>
+                  {isEditingProfile && (
+                    <div>
+                      <input
+                        type="file"
+                        id="photo-upload"
+                        accept="image/*"
+                        onChange={handlePhotoUpload}
+                        className="hidden"
+                      />
+                      <label htmlFor="photo-upload" className="btn-secondary text-xs py-1.5 px-3 cursor-pointer inline-block">
+                        Upload Photo
+                      </label>
+                    </div>
+                  )}
+                </div>
+
+                {/* Profile Form */}
+                <div className="flex-1 space-y-5">
+                  {/* First Name & Last Name */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-white text-sm font-semibold mb-2">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        value={profileData.firstName}
+                        onChange={(e) => setProfileData({...profileData, firstName: e.target.value})}
+                        disabled={!isEditingProfile}
+                        className="glass-input disabled:opacity-60 disabled:cursor-not-allowed"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-white text-sm font-semibold mb-2">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        value={profileData.lastName}
+                        onChange={(e) => setProfileData({...profileData, lastName: e.target.value})}
+                        disabled={!isEditingProfile}
+                        className="glass-input disabled:opacity-60 disabled:cursor-not-allowed"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email Address */}
+                  <div>
+                    <label className="block text-white text-sm font-semibold mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      value={profileData.email}
+                      disabled
+                      className="glass-input disabled:opacity-60 disabled:cursor-not-allowed"
+                    />
+                    <p className="text-gray-300 text-xs mt-1">Email cannot be changed</p>
+                  </div>
+
+                  {/* User Type */}
+                  <div>
+                    <label className="block text-white text-sm font-semibold mb-2">
+                      User Type
+                    </label>
+                    <select
+                      value={profileData.userType}
+                      onChange={(e) => setProfileData({...profileData, userType: e.target.value})}
+                      disabled={!isEditingProfile}
+                      className="glass-input disabled:opacity-60 disabled:cursor-not-allowed capitalize"
+                    >
+                      <option value="freelancer">Freelancer</option>
+                      <option value="business">Business</option>
+                      <option value="individual">Individual</option>
+                      <option value="enterprise">Enterprise</option>
+                    </select>
+                  </div>
+
+                  {/* Action Buttons */}
+                  {isEditingProfile && (
+                    <div className="flex gap-3 pt-4">
+                      <button 
+                        onClick={() => {
+                          setIsEditingProfile(false);
+                          // Here you would save the data
+                        }}
+                        className="btn-primary flex-1"
+                      >
+                        Save Changes
+                      </button>
+                      <button 
+                        onClick={() => {
+                          setIsEditingProfile(false);
+                          // Here you would reset to original data
+                        }}
+                        className="btn-secondary flex-1"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </main>
+        )}
+
         {/* Step 1: Landing Page */}
-        {step === 1 && (
+        {step === 1 && !showProfile && !showAbout && (
           <main className="max-w-7xl mx-auto px-8 py-12">
             <div className="text-center mb-16">
               <div className="flex justify-center mb-6">
@@ -383,7 +554,7 @@ function App() {
         )}
 
         {/* Step 2: Scan/Upload Page */}
-        {step === 2 && (
+        {step === 2 && !showProfile && !showAbout && (
           <main className="max-w-4xl mx-auto px-8 py-12">
             <div className="glass-card mb-6">
               <div className="flex gap-4 mb-6 border-b border-white/10 pb-4">
@@ -587,7 +758,7 @@ function App() {
         )}
 
         {/* Step 3: Document Type Selection */}
-        {step === 3 && (
+        {step === 3 && !showProfile && !showAbout && (
           <main className="max-w-2xl mx-auto px-8 py-12">
             <div className="glass-card">
               <h2 className="text-2xl font-bold text-white mb-6">
@@ -620,11 +791,16 @@ function App() {
                 </button>
 
                 {showDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-2 glass-card z-20 overflow-hidden shadow-2xl border border-white/30">
+                  <div className="absolute top-full left-0 right-0 mt-2 glass-card z-20 shadow-2xl border-2 border-white/40 py-2">
                     {[
                       "contract",
                       "agreement",
                       "terms & conditions",
+                      "policy",
+                      "invoice",
+                      "receipt",
+                      "proposal",
+                      "memorandum",
                       "other",
                     ].map((type) => (
                       <button
@@ -633,10 +809,10 @@ function App() {
                           setDocumentType(type);
                           setShowDropdown(false);
                         }}
-                        className={`w-full text-left px-4 py-3 hover:bg-primary/80 transition-colors font-medium ${
+                        className={`w-full text-left px-5 py-3 transition-all font-medium text-base ${
                           documentType === type
-                            ? "bg-primary text-white"
-                            : "text-gray-200 hover:text-white"
+                            ? "bg-primary/90 text-white shadow-lg"
+                            : "text-white hover:bg-white/20 hover:text-white"
                         }`}
                       >
                         <span className="capitalize">{type}</span>
@@ -696,7 +872,7 @@ function App() {
         )}
 
         {/* Step 4: Results Page */}
-        {step === 4 && (
+        {step === 4 && !showProfile && !showAbout && (
           <main className="max-w-7xl mx-auto px-8 py-8">
             {/* Results Header */}
             <div className="glass-card mb-6 bg-gradient-to-r from-primary/20 to-transparent">
@@ -824,19 +1000,19 @@ function App() {
                                       clipRule="evenodd"
                                     />
                                   </svg>
-                                  <span className="text-sm font-medium text-danger">
+                                  <span className="text-sm font-semibold text-danger">
                                     {excerpt.section}
                                   </span>
                                 </div>
-                                <div className="glass-card bg-white/10 p-4">
-                                  <p className="text-gray-300 text-sm leading-relaxed">
+                                <div className="glass-card bg-white/15 p-4 border border-white/20">
+                                  <p className="text-white text-sm leading-relaxed font-medium">
                                     {excerpt.text
                                       .split(excerpt.highlight)
                                       .map((part, i, arr) => (
                                         <React.Fragment key={i}>
                                           {part}
                                           {i < arr.length - 1 && (
-                                            <mark className="bg-danger/30 text-white px-1 rounded">
+                                            <mark className="bg-danger/40 text-white px-1.5 py-0.5 rounded font-semibold">
                                               {excerpt.highlight}
                                             </mark>
                                           )}
@@ -921,19 +1097,19 @@ function App() {
                                       clipRule="evenodd"
                                     />
                                   </svg>
-                                  <span className="text-sm font-medium text-warning">
+                                  <span className="text-sm font-semibold text-warning">
                                     {excerpt.section}
                                   </span>
                                 </div>
-                                <div className="glass-card bg-white/10 p-4">
-                                  <p className="text-gray-300 text-sm leading-relaxed">
+                                <div className="glass-card bg-white/15 p-4 border border-white/20">
+                                  <p className="text-white text-sm leading-relaxed font-medium">
                                     {excerpt.text
                                       .split(excerpt.highlight)
                                       .map((part, i, arr) => (
                                         <React.Fragment key={i}>
                                           {part}
                                           {i < arr.length - 1 && (
-                                            <mark className="bg-warning/30 text-white px-1 rounded">
+                                            <mark className="bg-warning/40 text-white px-1.5 py-0.5 rounded font-semibold">
                                               {excerpt.highlight}
                                             </mark>
                                           )}
@@ -1017,19 +1193,19 @@ function App() {
                                       clipRule="evenodd"
                                     />
                                   </svg>
-                                  <span className="text-sm font-medium text-info">
+                                  <span className="text-sm font-semibold text-info">
                                     {excerpt.section}
                                   </span>
                                 </div>
-                                <div className="glass-card bg-white/10 p-4">
-                                  <p className="text-gray-300 text-sm leading-relaxed">
+                                <div className="glass-card bg-white/15 p-4 border border-white/20">
+                                  <p className="text-white text-sm leading-relaxed font-medium">
                                     {excerpt.text
                                       .split(excerpt.highlight)
                                       .map((part, i, arr) => (
                                         <React.Fragment key={i}>
                                           {part}
                                           {i < arr.length - 1 && (
-                                            <mark className="bg-info/30 text-white px-1 rounded">
+                                            <mark className="bg-info/40 text-white px-1.5 py-0.5 rounded font-semibold">
                                               {excerpt.highlight}
                                             </mark>
                                           )}
@@ -1114,19 +1290,19 @@ function App() {
                                       clipRule="evenodd"
                                     />
                                   </svg>
-                                  <span className="text-sm font-medium text-warning">
+                                  <span className="text-sm font-semibold text-warning">
                                     {excerpt.section}
                                   </span>
                                 </div>
-                                <div className="glass-card bg-white/10 p-4">
-                                  <p className="text-gray-300 text-sm leading-relaxed">
+                                <div className="glass-card bg-white/15 p-4 border border-white/20">
+                                  <p className="text-white text-sm leading-relaxed font-medium">
                                     {excerpt.text
                                       .split(excerpt.highlight)
                                       .map((part, i, arr) => (
                                         <React.Fragment key={i}>
                                           {part}
                                           {i < arr.length - 1 && (
-                                            <mark className="bg-warning/30 text-white px-1 rounded">
+                                            <mark className="bg-warning/40 text-white px-1.5 py-0.5 rounded font-semibold">
                                               {excerpt.highlight}
                                             </mark>
                                           )}
