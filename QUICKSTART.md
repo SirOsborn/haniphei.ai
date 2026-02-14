@@ -6,7 +6,9 @@ This guide helps you test the complete integration locally in under 10 minutes.
 
 - Python 3.9+ installed
 - Node.js 18+ installed
-- Tesseract OCR installed (optional, for image/PDF OCR)
+- Tesseract OCR installed (required for document OCR)
+  - Download: https://github.com/UB-Mannheim/tesseract/wiki
+  - **Important:** Also install Khmer language data (`khm.traineddata`) for Khmer contract support
 - Google Gemini API key (free from https://aistudio.google.com/app/apikey)
 
 ---

@@ -1,0 +1,34 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Runtime data
+data/training.jsonl
+models/*.joblib
+models/metrics.json
+
+# Test files
+test_*.py
+test_*.png
+test_*.pdf
+
+# OS
+.DS_Store
+Thumbs.db

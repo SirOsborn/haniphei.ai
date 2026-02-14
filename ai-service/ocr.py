@@ -49,10 +49,24 @@ async def extract_text(file: Optional[UploadFile] = None, text: Optional[str] = 
 
 
 def _extract_pdf_bytes(content: bytes) -> str:
+    """Extract text from PDF. Supports native text and OCR for scanned PDFs."""
     text = []
     with fitz.open(stream=content, filetype="pdf") as doc:
         for page in doc:
-            text.append(page.get_text())
+            page_text = page.get_text()
+            
+            # If page has no text (scanned PDF), perform OCR
+            if not page_text.strip():
+                try:
+                    pix = page.get_pixmap()
+                    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+                    _ensure_tesseract_config()
+                    page_text = pytesseract.image_to_string(img, lang=settings.tesseract_lang)
+                except Exception as e:
+                    print(f"Warning: OCR failed for PDF page, skipping. Error: {e}")
+                    page_text = ""
+            
+            text.append(page_text)
     return "\n".join(text)
 
 
@@ -73,7 +87,17 @@ def _extract_docx_bytes(content: bytes) -> str:
 
 
 def _extract_image_bytes(content: bytes) -> str:
+    """Extract text from image using OCR with Khmer + English support."""
     _ensure_tesseract_config()
     import io
     img = Image.open(io.BytesIO(content))
-    return pytesseract.image_to_string(img)
+    
+    # Use configured language (default: eng+khm for bilingual support)
+    try:
+        return pytesseract.image_to_string(img, lang=settings.tesseract_lang)
+    except pytesseract.TesseractError as e:
+        # Fallback to English only if Khmer language data not found
+        if 'khm' in settings.tesseract_lang.lower() and 'eng' in settings.tesseract_lang.lower():
+            print(f"Warning: Khmer language data not found, falling back to English only. Error: {e}")
+            return pytesseract.image_to_string(img, lang='eng')
+        raise

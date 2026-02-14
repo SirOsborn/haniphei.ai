@@ -33,6 +33,8 @@ class Settings:
 
     # OCR
     tesseract_cmd: str = os.getenv("TESSERACT_CMD", "")
+    # OCR Language support: 'eng' for English only, 'eng+khm' for English + Khmer
+    tesseract_lang: str = os.getenv("TESSERACT_LANG", "eng+khm")
 
 
 settings = Settings()
