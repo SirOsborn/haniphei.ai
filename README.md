@@ -15,6 +15,8 @@ Haniphei.ai is an automated web-based platform designed to revolutionize the leg
 At its core, the application serves as an intelligent risk-assessment engine. Users upload legal documents, which the system automatically parses and analyzes to detect critical risks, hidden assumptions, and operational dependencies. Rather than just displaying text, Haniphei.ai transforms unstructured legal data into a clear, interactive, and structured risk report.
 The system focuses on delivering these insights within optimized performance parameters, ensuring that legal professionals and business users can assess document viability and liability in a fraction of the time required for traditional manual review.
 
+**Language Support:** Full support for both **English** and **Khmer (ភាសាខ្មែរ)** legal documents, including mixed-language contracts.
+
 ## 📚 Documentation
 
 ### For All Teams
@@ -37,6 +39,7 @@ The project is divided into three main components:
 **Tech Highlights**:
 - 🆓 **Free LLM**: Google Gemini (cloud) or Ollama (local)
 - 🔄 **Hybrid AI**: Starts with LLM, transitions to local model as it learns
+- 🌏 **Bilingual**: Full support for English and Khmer (ភាសាខ្មែរ) documents
 - 🎯 **Student-Friendly**: Deployable on free tiers (Vercel, Render, etc.)
 
 For detailed information about each component, please refer to the `README.md` file within its respective directory.

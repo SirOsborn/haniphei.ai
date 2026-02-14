@@ -44,3 +44,4 @@ yarn-error.log*
 # AI Service data and models
 ai-service/data/
 ai-service/models/
+khm.traineddata
