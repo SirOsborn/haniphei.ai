@@ -13,6 +13,7 @@ alembic
 passlib
 bcrypt==4.1.3
 itsdangerous
+python-jose[cryptography]
 
 # Configuration
 python-dotenv
