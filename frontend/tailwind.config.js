@@ -7,24 +7,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Primary Brand Colors - Purple Theme
+        // Primary Brand Colors - Darker Purple Theme
         primary: {
-          DEFAULT: '#8B5CF6',
-          50: '#F5F3FF',
-          100: '#EDE9FE',
-          200: '#DDD6FE',
-          300: '#C4B5FD',
-          400: '#A78BFA',
-          500: '#8B5CF6',
-          600: '#7C3AED',
-          700: '#6D28D9',
-          800: '#5B21B6',
-          900: '#4C1D95',
+          DEFAULT: '#6366F1',
+          50: '#EEEEFF',
+          100: '#E0E7FF',
+          200: '#C7D2FE',
+          300: '#A5B4FC',
+          400: '#818CF8',
+          500: '#6366F1',
+          600: '#4F46E5',
+          700: '#4338CA',
+          800: '#3730A3',
+          900: '#312E81',
         },
-        // Neutral Colors - Dark Theme
-        background: '#0A0A0A',
-        surface: '#1A1A1A',
-        border: '#2A2A2A',
+        // Neutral Colors - Very Dark Theme
+        background: '#06060A',
+        surface: '#0F0F15',
+        'surface-light': '#16161E',
+        border: '#1F1F28',
         // Semantic Colors for Risk Levels
         success: {
           DEFAULT: '#10B981',
@@ -48,22 +49,33 @@ export default {
         },
         // Accent Colors
         accent: {
-          purple: '#8B5CF6',
+          purple: '#6366F1',
           cyan: '#06B6D4',
         },
         // Text Colors - Light on Dark
         text: {
-          primary: '#F3F4F6',
-          secondary: '#D1D5DB',
-          muted: '#9CA3AF',
+          primary: '#F1F5F9',
+          secondary: '#CBD5E1',
+          muted: '#64748B',
+        },
+        // Glassmorphism
+        glass: {
+          DEFAULT: 'rgba(255, 255, 255, 0.03)',
+          light: 'rgba(255, 255, 255, 0.05)',
+          border: 'rgba(255, 255, 255, 0.08)',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.4)',
+        'glass-lg': '0 12px 40px 0 rgba(0, 0, 0, 0.5)',
+        'inner-glass': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+      },
+      backdropBlur: {
+        'xs': '2px',
+        'glass': '16px',
       },
     },
   },

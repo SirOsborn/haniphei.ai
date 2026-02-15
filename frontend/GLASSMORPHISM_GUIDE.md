@@ -1,95 +1,145 @@
-# 🎨 Glassmorphism Design System
+# 🎨 Professional Glassmorphism Design System v2.0
 
 ## Overview
 
-Haniphei.ai uses a modern **glassmorphism** (frosted glass) design aesthetic to create a clean, professional, and interactive user experience. The design features:
+Haniphei.ai uses a **sophisticated minimal glassmorphism** design aesthetic to create a professional, enterprise-grade user experience. The updated design features:
 
-- ✨ **Frosted glass effects** with backdrop blur
-- 🎭 **Animated SVG icons** instead of static emojis
-- 🌊 **Floating animated orbs** in the background
-- 🎯 **Smooth transitions** and hover effects
-- 🎨 **Gradient accents** for visual depth
+- ✨ **Subtle frosted glass effects** with minimal transparency
+- 🌊 **Flowing liquid background animation** for dynamic ambiance  
+- 🎭 **Performance-optimized animated SVG icons** 
+- 🎯 **Smooth transitions** with accessibility considerations
+- 🌚 **Dark professional theme** with sophisticated color palette
+- ⚡ **Hardware-accelerated animations** for optimal performance
 
 ---
 
-## Glassmorphism Components
+## Updated Design Philosophy
 
-### `.glass` - Base Glass Effect
+**V2.0 Changes:**
+- **Darker Base**: Ultra-dark background (#06060A) for professional feel
+- **Minimal Glass**: Reduced transparency (0.01-0.03) for subtle effect
+- **Flowing Animation**: Dynamic liquid background instead of static orbs
+- **Performance First**: GPU-accelerated animations with fallbacks
+- **Enterprise Ready**: Sophisticated, business-appropriate aesthetic
+
+---
+
+## Professional Glassmorphism Components
+
+### `.glass` - Minimal Glass Effect (Updated v2.0)
 
 ```jsx
 <div className="glass">
-  Frosted glass background with blur
+  Subtle frosted glass with professional feel
 </div>
 ```
 
-**Properties:**
-- `background: rgba(255, 255, 255, 0.7)` - Semi-transparent white
-- `backdrop-filter: blur(20px)` - Frosted glass blur effect
-- `border: 1px solid rgba(255, 255, 255, 0.3)` - Subtle border
-- `box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15)` - Soft elevation
+**Updated Properties:**
+- `background: rgba(255, 255, 255, 0.03)` - Ultra-minimal transparency
+- `backdrop-filter: blur(16px) saturate(120%)` - Refined blur effect
+- `border: 1px solid rgba(255, 255, 255, 0.08)` - Subtle border
+- `box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35)` - Dark professional shadow
+- `z-index: 10` - Always above flowing background
 
-### `.glass-card` - Interactive Cards
+### `.glass-card` - Professional Interactive Cards
 
 ```jsx
 <div className="glass-card">
   <h3>Card Title</h3>
-  <p>Card content with hover effects</p>
+  <p>Professional content with subtle interactions</p>
 </div>
 ```
 
 **Features:**
+- Minimal transparency for readability
 - Rounded corners (`rounded-2xl`)
 - Padding (`p-6`)
-- Hover lift animation (`translateY(-4px)`)
-- Enhanced shadow on hover
+- Subtle hover lift (`translateY(-4px)`)
+- Enhanced shadow without glow
 
-### `.glass-input` - Form Inputs
+### `.glass-navbar` - Navigation Glass Effect
+
+```jsx
+<nav className="glass-navbar">
+  Navigation with professional glass styling
+</nav>
+```
+
+**Features:**
+- Extra blur for separation (`blur(20px)`)
+- Bottom border for definition
+- Subtle hover enhancement
+- Optimized for readability
+
+### `.glass-input` - Minimal Form Inputs
 
 ```jsx
 <input 
   type="text" 
   className="glass-input" 
-  placeholder="Enter text..."
+  placeholder="Professional input styling..."
 />
 ```
 
-**Features:**
-- Frosted background
-- Focus state with enhanced clarity
-- Blue accent on focus with subtle glow
+**Updated Features:**
+- Extremely subtle background (`rgba(255, 255, 255, 0.03)`)
+- Inset shadow for depth
+- Professional focus state with primary accent
+- No excessive glow effects
 
 ---
 
-## Animated SVG Icons
+## Performance-Optimized Animated Icons
 
-All icons are custom-built SVGs with built-in animations. **No emojis or static icons** are used.
+All icons are custom-built SVGs with **hardware-accelerated animations**. **No emojis or static icons** are used.
 
-### Available Icons
+### Icon Animation Classes (New v2.0)
 
-| Icon | Component | Animation | Usage |
-|------|-----------|-----------|-------|
-| 📄 | `<ScanIcon />` | Scanning beam | Document scanning action |
-| ☁️ | `<UploadIcon />` | Bounce arrow | File upload areas |
-| 🧠 | `<AnalyzeIcon />` | Pulsing nodes | AI analysis features |
-| 📊 | `<ReportIcon />` | Growing bars | Risk reports |
-| 🛡️ | `<ShieldIcon />` | Pulsing ring | Risk levels |
-| 📝 | `<DocumentIcon />` | Text appearing | Document display |
+| Class | Effect | Duration | Performance |
+|-------|--------|----------|-------------|
+| `icon-float` | Gentle vertical movement | 3s | GPU-accelerated |
+| `icon-pulse` | Scale and opacity pulse | 2s | GPU-accelerated |
+| `icon-glow` | Drop-shadow pulsing | 2.5s | Filter-based |
+| `icon-rotate` | Slow rotation | 20s | GPU-accelerated |
+| `icon-float-delay-1` | Float with 0.5s delay | 3s | GPU-accelerated |
+| `icon-float-delay-2` | Float with 1s delay | 3s | GPU-accelerated |
+| `icon-pulse-delay-1` | Pulse with 0.3s delay | 2s | GPU-accelerated |
 
-### Usage Examples
+### Usage Examples with Animation Classes
 
 ```jsx
 import { ScanIcon, UploadIcon, ShieldIcon } from './components/icons';
 
-// Basic usage
-<ScanIcon className="w-16 h-16" />
+// Animated icons (recommended)
+<ScanIcon className="w-16 h-16 icon-pulse" />
+<UploadIcon className="w-24 h-24 text-primary icon-float" />
+<AnalyzeIcon className="w-16 h-16 text-accent-purple icon-glow" />
+<ShieldIcon className="w-12 h-12 icon-float-delay-1" riskLevel="high" />
 
-// With custom size
-<UploadIcon className="w-24 h-24 text-primary" />
+// Multiple animations with delays for variety
+<ReportIcon className="w-16 h-16 text-accent-cyan icon-pulse-delay-1" />
+<DocumentIcon className="w-12 h-12 icon-float-delay-2" />
+```
 
-// Shield with risk level
-<ShieldIcon className="w-12 h-12" riskLevel="high" />
-<ShieldIcon className="w-12 h-12" riskLevel="medium" />
-<ShieldIcon className="w-12 h-12" riskLevel="low" />
+### Performance Optimizations
+
+**Hardware Acceleration:**
+```css
+.icon-float {
+  animation: icon-float 3s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);        /* GPU layer */
+  backface-visibility: hidden;     /* Optimization */
+}
+```
+
+**Accessibility Support:**
+```css
+@media (prefers-reduced-motion: reduce) {
+  .icon-float, .icon-pulse, .icon-glow {
+    animation: none;  /* Respects user preferences */
+  }
+}
 ```
 
 ### Icon Animations
@@ -128,30 +178,68 @@ Each icon has unique, purpose-built animations:
 
 ---
 
-## Animated Background Orbs
+## Flowing Liquid Background Animation (New v2.0)
 
-The design includes **3 floating orbs** that create dynamic, ambient movement:
+The design features a **sophisticated flowing liquid animation** that creates ambient movement behind glass elements:
 
-```jsx
-<div className="orb orb-1"></div>
-<div className="orb orb-2"></div>
-<div className="orb orb-3"></div>
+### Background Architecture
+
+```css
+/* Primary liquid layer */
+body::before {
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(67, 56, 202, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.04) 0%, transparent 60%);
+  animation: liquid-blend-subtle 30s ease-in-out infinite;
+}
+
+/* Subtle texture overlay */
+body::after {
+  background: repeating-linear-gradient(/* Noise texture */);
+  opacity: 0.02;
+}
 ```
 
-**Orb Properties:**
-- **Orb 1:** Blue gradient, top-left, 400px
-- **Orb 2:** Purple-cyan gradient, bottom-right, 350px
-- **Orb 3:** Green-blue gradient, center, 300px
+### Animation Properties
 
-**Animation:**
-- 20-second float cycle
-- Staggered delays (0s, 7s, 14s)
-- Moves in organic patterns
-- Scale variation (0.9x - 1.1x)
+**Liquid Flow Characteristics:**
+- **Duration:** 30-second cycle for organic movement
+- **Gradient Colors:** Professional indigo/purple palette
+- **Opacity Range:** 0.04-0.06 for subtlety  
+- **Layer Count:** 3 overlapping gradients
+- **Movement Pattern:** Circular flow with varying positions
+
+**Performance Features:**
+- `will-change: background-position` for GPU optimization
+- `contain: strict` for rendering isolation
+- `transform: translateZ(0)` for hardware acceleration
+- Smooth easing for natural movement
+
+### Integration with Glass Elements
+
+```jsx
+<div className="min-h-screen relative">
+  {/* Flowing background (automatic via CSS) */}
+  
+  {/* Content with proper layering */}
+  <div className="relative z-10">
+    <div className="glass-card">
+      Content appears above flowing animation
+    </div>
+  </div>
+</div>
+```
+
+**Key Points:**
+- Background flows automatically behind all content
+- Glass elements have `z-index: 10` for proper layering
+- Animation visible through transparent glass elements
+- No manual element placement required
 
 ---
 
-## Button Styles
+## Professional Button Styles (Updated v2.0)
 
 ### Primary Button
 
@@ -161,12 +249,14 @@ The design includes **3 floating orbs** that create dynamic, ambient movement:
 </button>
 ```
 
-**Effects:**
-- Gradient blue background
-- Glass morphism overlay
-- Lift on hover (`translateY(-2px)`)
-- Enhanced shadow on hover
-- Active press state
+**Updated Effects:**
+- Clean gradient background (`linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)`)
+- Subtle border with primary accent
+- Minimal lift on hover (`translateY(-2px)`)
+- Professional shadow without excessive glow
+- Clean active press state
+
+**Performance:** Hardware-accelerated transitions with `will-change: transform`
 
 ### Secondary Button
 
@@ -176,14 +266,15 @@ The design includes **3 floating orbs** that create dynamic, ambient movement:
 </button>
 ```
 
-**Effects:**
-- Glass background
-- Subtle hover lift
-- Enhanced transparency on hover
+**Features:**
+- Minimal glass background (`rgba(255, 255, 255, 0.1)`)
+- Subtle hover enhancement
+- Professional styling without dramatic effects
+- Consistent with overall minimal theme
 
 ---
 
-## Risk Badges with Glass Effect
+## Risk Badges with Subtle Glass Effect
 
 ```jsx
 <span className="badge-high-risk">High Risk</span>
@@ -191,135 +282,196 @@ The design includes **3 floating orbs** that create dynamic, ambient movement:
 <span className="badge-low-risk">Low Risk</span>
 ```
 
-All badges use glassmorphism with:
-- Semi-transparent colored backgrounds
-- Frosted blur effect
-- Subtle colored borders
-- Risk-appropriate colors
+**Updated Badge Design:**
+- Professional colored backgrounds with minimal transparency
+- Subtle borders for definition
+- Risk-appropriate colors maintained
+- Improved readability on dark background
 
 ---
 
-## Layout Structure
+## Layout Structure (Updated v2.0)
 
 ### Page Container
 
 ```jsx
 <div className="min-h-screen relative overflow-hidden">
-  {/* Background orbs */}
-  <div className="orb orb-1"></div>
-  <div className="orb orb-2"></div>
-  <div className="orb orb-3"></div>
+  {/* Automatic flowing background via body::before */}
   
-  {/* Content with z-index */}
+  {/* Content with proper z-index layering */}
   <div className="relative z-10">
-    {/* Your content here */}
+    <header className="glass-navbar">
+      {/* Navigation content */}
+    </header>
+    
+    <main className="max-w-7xl mx-auto px-8 py-12">
+      {/* Main content with glass cards */}
+    </main>
   </div>
 </div>
 ```
 
-**Key Points:**
-- `min-h-screen` ensures full viewport height
-- `relative overflow-hidden` contains orbs
-- `z-10` on content keeps it above orbs
-- Gradient background on `<body>`
+**Key Changes:**
+- No manual orb placement needed
+- Automatic background via CSS
+- Simplified z-index management  
+- Focus on content hierarchy
 
 ---
 
-## Interactive States
+## Interactive States (Updated v2.0)
 
 ### Hover Effects
 
-All interactive elements have smooth transitions:
+All interactive elements use **performance-optimized transitions**:
 
 ```css
-transition-all duration-300
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1)
 ```
 
 **Glass Cards:**
-- Background opacity increases (0.7 → 0.8)
-- Lift up 4px
-- Shadow enhances
+- Background opacity increases minimally (0.02 → 0.04)
+- Subtle lift up 4px
+- Enhanced shadow depth
+- Border color intensifies slightly
 
 **Buttons:**
-- Lift up 2px
-- Shadow glows with brand color
-- Gradient intensifies
+- Minimal lift up 2px  
+- Professional shadow enhancement
+- Clean gradient shift
+- No excessive glow effects
 
 **Inputs:**
-- Background clarifies
-- Blue glow appears
-- Border highlights
+- Background clarity increases slightly
+- Primary color focus ring
+- Subtle border highlight
+- Professional focus indication
 
 ---
 
-## Color Integration
+## Color Integration (Updated Color Palette)
 
-Glassmorphism works seamlessly with the theme colors:
+Professional glassmorphism with darker, sophisticated colors:
 
 ```jsx
-// Glass with primary color accent
-<div className="glass border-primary/30">
-  Primary-accented glass
+// Glass with minimal primary accent
+<div className="glass border-primary/20">
+  Subtle primary-accented glass
 </div>
 
-// Glass with risk colors
-<div className="glass bg-danger/10 border-danger/30">
-  Danger-tinted glass
+// Glass with risk colors (reduced intensity)  
+<div className="glass bg-danger/5 border-danger/20">
+  Minimal danger-tinted glass
 </div>
 ```
 
-**Opacity Levels:**
-- Background: `/70` or `0.7` for glass
-- Borders: `/30` or `0.3` for subtle outlines
-- Color tints: `/10` or `0.1` for backgrounds
-- Hover states: `/80` or `/90` for enhanced clarity
+**Updated Opacity Levels:**
+- Glass Background: `0.01-0.03` for minimal transparency
+- Borders: `0.05-0.08` for subtle definition  
+- Color tints: `0.05` for barely-visible backgrounds
+- Hover states: Increase by `0.01-0.02` only
+
+**Professional Color Palette:**
+- **Primary**: `#6366F1` (Refined indigo)
+- **Background**: `#06060A` (Ultra-dark professional)
+- **Glass Border**: `rgba(255, 255, 255, 0.08)` (Subtle definition)
+- **Text Primary**: `#F1F5F9` (Soft white)
+- **Text Secondary**: `#CBD5E1` (Professional gray)
 
 ---
 
-## Best Practices
+## Best Practices (Updated v2.0)
 
 ### ✅ Do's
 
-- **Layer glass elements** over the gradient background
-- **Use animated SVGs** for all icons
-- **Apply transitions** to all interactive elements
-- **Maintain subtle shadows** for depth
-- **Use appropriate blur levels** (blur-md to blur-xl)
-- **Keep content above orbs** with z-index
+- **Use minimal glass transparency** (0.01-0.03) for professional feel
+- **Apply performance-optimized animation classes** to icons
+- **Leverage automatic flowing background** - no manual orb placement
+- **Maintain subtle interactions** - avoid excessive hover effects
+- **Use appropriate blur levels** (blur-md to blur-xl) 
+- **Ensure content stays above background** with proper z-indexing
+- **Implement accessibility features** - respect `prefers-reduced-motion`
+- **Use hardware acceleration** for smooth animations
 
 ### ❌ Don'ts
 
-- **Don't use emojis** - use animated SVGs instead
-- **Don't over-blur** - maintain readability
-- **Don't skip hover states** - all interactive elements need feedback
-- **Don't use solid backgrounds** - embrace transparency
-- **Don't forget accessibility** - ensure sufficient contrast
-- **Don't animate everything** - be purposeful
+- **Don't over-animate** - maintain professional subtlety
+- **Don't use high opacity glass** - breaks the minimal aesthetic  
+- **Don't manually place background elements** - use automatic CSS layers
+- **Don't skip performance optimizations** - always use `will-change` appropriately
+- **Don't ignore accessibility** - include motion reduction fallbacks
+- **Don't use excessive glow effects** - keep shadows professional
+- **Don't animate without purpose** - every animation should enhance UX
+
+### 🔄 Migration from v1.0
+
+**Replacing Orbs with Flowing Background:**
+```jsx
+// ❌ Old v1.0 approach
+<div className="orb orb-1"></div>
+<div className="orb orb-2"></div>
+
+// ✅ New v2.0 approach  
+// Background flows automatically via CSS
+// No manual elements needed
+```
+
+**Updating Glass Components:**
+```jsx
+// ❌ Old high opacity
+<div className="glass bg-white/70">
+
+// ✅ New minimal opacity
+<div className="glass"> {/* Uses updated CSS custom properties */}
+```
 
 ---
 
-## Performance Considerations
+## Performance Considerations (Enhanced v2.0)
 
-### Backdrop Blur Support
+### Hardware Acceleration
 
-Backdrop blur is well-supported in modern browsers:
-- ✅ Chrome/Edge 76+
-- ✅ Safari 9+
-- ✅ Firefox 103+
-
-**Fallback:**
+**Icon Animations:**
 ```css
-background: rgba(255, 255, 255, 0.9); /* Fallback */
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px); /* Safari */
+.icon-float {
+  will-change: transform;
+  transform: translateZ(0);        /* Force GPU layer */
+  backface-visibility: hidden;     /* Reduce repaints */
+}
 ```
 
-### Optimization Tips
+**Background Animation:**  
+```css  
+body::before {
+  will-change: background-position; /* Specific property hint */
+  contain: strict;                  /* Rendering isolation */
+  transform: translateZ(0);         /* GPU acceleration */
+}
+```
 
-1. **Limit orb count** - 3 is optimal
-2. **Use CSS animations** - better performance than JS
-3. **Reduce blur on mobile** - if performance issues arise
-4. **Lazy load complex SVGs** - for initial page load
+### Browser Support
+
+**Backdrop Blur Support:**
+- ✅ Chrome/Edge 76+
+- ✅ Safari 9+ 
+- ✅ Firefox 103+
+
+**Graceful Degradation:**
+```css
+.glass {
+  background: rgba(255, 255, 255, 0.02);  /* Fallback */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);     /* Safari */
+}
+```
+
+### Optimization Guidelines
+
+1. **Limit animated elements** - Use animation classes selectively
+2. **Prefer CSS animations** over JavaScript for better performance  
+3. **Use `will-change` sparingly** - Only on actively animating elements
+4. **Implement motion reduction** - Always include accessibility fallbacks
+5. **Test on lower-end devices** - Ensure smooth performance across devices
 
 ---
 
@@ -344,6 +496,162 @@ Glass elements adapt to screen sizes:
 - Smaller orb sizes
 - Simplified animations
 - Touch-friendly sizing (min 44px tap targets)
+
+---
+
+## Advanced Usage (v2.0 Features)
+
+### Custom Glass Variants
+
+**Ultra-minimal glass for professional contexts:**
+```css
+.glass-minimal {
+  background: rgba(255, 255, 255, 0.005);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+```
+
+**Enhanced glass for key UI elements:**
+```css
+.glass-enhanced {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+```
+
+### Animation Staggering
+
+**Sequential icon animations:**
+```jsx
+<div className="icon-float" style={{animationDelay: '0.1s'}}>
+  <AnalyzeIcon />
+</div>
+<div className="icon-float" style={{animationDelay: '0.2s'}}>
+  <ScanIcon />
+</div>
+```
+
+**Progressive loading effects:**
+```css
+.glass-card {
+  animation: glass-appear 0.6s ease-out;
+  animation-delay: calc(var(--index) * 0.1s);
+}
+
+@keyframes glass-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+```
+
+### Responsive Adaptations
+
+**Mobile-optimized glass:**
+```css
+@media (max-width: 768px) {
+  .glass {
+    backdrop-filter: blur(12px);  /* Reduced blur for performance */
+    background: rgba(255, 255, 255, 0.02);  /* Slightly more visible */
+  }
+  
+  /* Disable animations on lower-end devices */
+  body::before,
+  body::after {
+    animation-duration: 60s;  /* Slower, less intensive */
+  }
+}
+```
+
+### Accessibility Enhancements
+
+**Motion preferences:**
+```css
+@media (prefers-reduced-motion: reduce) {
+  .icon-float,
+  .icon-pulse,
+  .icon-glow {
+    animation: none !important;  /* Disable all animations */
+  }
+  
+  body::before,
+  body::after {
+    animation: none !important;  /* Static background */
+  }
+  
+  .glass {
+    transition: none !important;  /* Instant state changes */
+  }
+}
+```
+
+**High contrast mode support:**
+```css
+@media (prefers-contrast: high) {
+  .glass {
+    background: rgba(255, 255, 255, 0.1);  /* More visible */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .btn-glass {
+    background: rgba(99, 102, 241, 0.3);  /* Stronger button contrast */
+  }
+}
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**Problem: Animations are laggy**
+- ✅ Add `will-change: transform` to animated elements
+- ✅ Use `transform` instead of changing `top/left` positions  
+- ✅ Reduce animation complexity on slower devices
+
+**Problem: Glass effect not visible**
+- ✅ Ensure backdrop-filter is supported in browser
+- ✅ Check element has content behind it to blur
+- ✅ Verify background transparency is not too low
+
+**Problem: Background animation stutters**
+- ✅ Use `background-position` animation instead of `background-size`
+- ✅ Add `contain: strict` for rendering isolation
+- ✅ Test with fewer gradient layers
+
+**Problem: High memory usage**
+- ✅ Remove `will-change` after animations complete
+- ✅ Reduce blur radius on lower-end devices
+- ✅ Use `animation-fill-mode: forwards` to avoid repeated calculations
+
+### Browser-Specific Fixes
+
+**Safari lagging:**
+```css
+/* Force hardware acceleration */
+.glass {
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-backface-visibility: hidden;
+}
+```
+
+**Firefox blur quality:**
+```css
+/* Enhanced Firefox support */
+.glass {
+  backdrop-filter: blur(16px);
+  -moz-backdrop-filter: blur(16px);  /* Future Firefox versions */
+}
+```
 
 ---
 
@@ -409,7 +717,7 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 ## Future Enhancements
 
 - [ ] Dark mode glassmorphism variant
-- [ ] More animated icon variations
+- [ ] More animated icon variations  
 - [ ] Parallax scrolling effects
 - [ ] Micro-interactions on form elements
 - [ ] Loading skeleton screens with glass effect
@@ -417,6 +725,31 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 
 ---
 
+## Version Notes
+
+### v2.0 Changes (Current)
+- ✨ New flowing liquid background animation system
+- ✨ Performance-optimized icon animation classes  
+- ✨ Professional minimal glassmorphism with ultra-low opacity (0.01-0.03)
+- ✨ Enhanced accessibility with motion reduction support
+- ✨ Hardware-accelerated animations throughout
+- 🔧 Migrated from manual orb placement to automatic CSS layers
+- 🔧 Refined color palette for darker, professional aesthetic (#06060A background)
+- 🔧 Improved mobile performance and responsive design
+- 🔧 Advanced troubleshooting and browser-specific optimizations
+
+### v1.0 (Legacy)
+- Basic glassmorphism with manual orb elements
+- Higher opacity glass effects (0.1+)  
+- Static background gradients
+- Basic icon animations
+- Limited accessibility considerations
+
+---
+
 For questions or suggestions about the glassmorphism design, contact:
-- **Frontend Lead:** Yung Sreyneang
+- **Frontend Lead:** Yung Sreyneang  
 - **Technical Lead:** Sun Heng
+
+*Last updated: Current Session - v2.0 Professional Glassmorphism System*  
+*Design Philosophy: Professional Minimal Glassmorphism with Flowing Liquid Backgrounds*
