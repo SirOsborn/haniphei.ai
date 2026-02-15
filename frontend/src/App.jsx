@@ -174,7 +174,7 @@ function App() {
         <header className="py-6 px-8">
           <nav className="max-w-7xl mx-auto flex items-center justify-between glass-navbar">
             <div className="flex items-center gap-3">
-              <ShieldIcon className="w-10 h-10" riskLevel="low" />
+              <ShieldIcon className="w-10 h-10 icon-glow" riskLevel="low" />
               <h1
                 className="text-2xl font-bold text-white cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={handleReset}
@@ -370,7 +370,7 @@ function App() {
           <main className="max-w-7xl mx-auto px-8 py-12">
             <div className="text-center mb-16">
               <div className="flex justify-center mb-6">
-                <ScanIcon className="w-24 h-24" />
+                <ScanIcon className="w-24 h-24 icon-pulse" />
               </div>
               <h2 className="text-5xl font-bold text-white mb-4">
                 Protect Yourself with AI-Powered Risk Analysis
@@ -448,7 +448,7 @@ function App() {
               <div className="glass-card">
                 <div className="flex items-start gap-4">
                   <div className="p-3 rounded-2xl bg-danger/10">
-                    <ShieldIcon className="w-12 h-12" riskLevel="high" />
+                    <ShieldIcon className="w-12 h-12 icon-float" riskLevel="high" />
                   </div>
                   <div>
                     <h4 className="text-xl font-semibold text-white mb-2">
@@ -465,7 +465,7 @@ function App() {
               <div className="glass-card">
                 <div className="flex items-start gap-4">
                   <div className="p-3 rounded-2xl bg-info/10">
-                    <DocumentIcon className="w-12 h-12" />
+                    <DocumentIcon className="w-12 h-12 icon-float-delay-1" />
                   </div>
                   <div>
                     <h4 className="text-xl font-semibold text-white mb-2">
@@ -492,7 +492,7 @@ function App() {
               <div className="glass-card text-center">
                 <div className="flex justify-center mb-4">
                   <div className="p-4 rounded-2xl bg-primary/10">
-                    <UploadIcon className="w-16 h-16 text-primary" />
+                    <UploadIcon className="w-16 h-16 text-primary icon-float" />
                   </div>
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-3">
@@ -506,7 +506,7 @@ function App() {
               <div className="glass-card text-center">
                 <div className="flex justify-center mb-4">
                   <div className="p-4 rounded-2xl bg-accent-purple/10">
-                    <AnalyzeIcon className="w-16 h-16 text-accent-purple" />
+                    <AnalyzeIcon className="w-16 h-16 text-accent-purple icon-glow" />
                   </div>
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-3">
@@ -518,7 +518,7 @@ function App() {
               <div className="glass-card text-center">
                 <div className="flex justify-center mb-4">
                   <div className="p-4 rounded-2xl bg-accent-cyan/10">
-                    <ReportIcon className="w-16 h-16 text-accent-cyan" />
+                    <ReportIcon className="w-16 h-16 text-accent-cyan icon-pulse-delay-1" />
                   </div>
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-3">
@@ -630,7 +630,7 @@ function App() {
                       document.getElementById("fileUpload").click()
                     }
                   >
-                    <UploadIcon className="w-20 h-20 mx-auto mb-4 text-primary" />
+                    <UploadIcon className="w-20 h-20 mx-auto mb-4 text-primary icon-float-delay-2" />
                     <p className="text-lg font-medium text-white mb-2">
                       Drop your legal document here
                     </p>
