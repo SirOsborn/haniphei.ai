@@ -99,7 +99,10 @@ const LandingPage = ({
                     <FileList files={files} url="" activeTab={activeTab} />
                   </div>
                   <div className="flex gap-3 mt-4">
-                    <button onClick={onScanDocument} className="flex-1 btn-primary">
+                    <button
+                      onClick={onScanDocument}
+                      className="flex-1 btn-primary"
+                    >
                       Scan Document
                     </button>
                     <button className="flex-1 btn-secondary">Discard</button>

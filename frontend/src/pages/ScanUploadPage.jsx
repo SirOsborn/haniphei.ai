@@ -3,7 +3,16 @@ import FileUploadZone from "../components/FileUploadZone";
 import FileList from "../components/FileList";
 import SecurityNotice from "../components/SecurityNotice";
 
-const ScanUploadPage = ({ activeTab, url, files, onTabSwitch, onUrlChange, onFileChange, onBack, onNext }) => {
+const ScanUploadPage = ({
+  activeTab,
+  url,
+  files,
+  onTabSwitch,
+  onUrlChange,
+  onFileChange,
+  onBack,
+  onNext,
+}) => {
   return (
     <main className="max-w-4xl mx-auto px-8 py-12">
       <div className="glass-card mb-6">

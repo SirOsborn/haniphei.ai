@@ -1,9 +1,16 @@
 import React from "react";
 import ShieldIcon from "./icons/ShieldIcon";
 
-const Header = ({ onGoHome, onToggleProfile, onBack, showBackButton, showScanButton, onScanDocument }) => {
+const Header = ({
+  onGoHome,
+  onToggleProfile,
+  onBack,
+  showBackButton,
+  showScanButton,
+  onScanDocument,
+}) => {
   return (
-    <header className="sticky top-0 py-4 px-8 z-50 backdrop-blur-xl bg-[#06060A]/90 border-b border-white/5">
+    <header className="sticky top-0 py-4 px-8 z-[100] backdrop-blur-xl bg-[#06060A]/95 border-b border-white/5">
       <nav className="max-w-7xl mx-auto flex items-center justify-between glass-navbar">
         <div className="flex items-center gap-3">
           <ShieldIcon className="w-10 h-10" riskLevel="low" />

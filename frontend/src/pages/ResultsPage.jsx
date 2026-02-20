@@ -4,7 +4,13 @@ import RiskCard from "../components/RiskCard";
 import SecurityNotice from "../components/SecurityNotice";
 import { findings, riskDetails } from "../constants/mockData";
 
-const ResultsPage = ({ selectedCategory, expandedRisk, onSelectCategory, onToggleRisk, onReset }) => {
+const ResultsPage = ({
+  selectedCategory,
+  expandedRisk,
+  onSelectCategory,
+  onToggleRisk,
+  onReset,
+}) => {
   const totalRisks = findings.reduce((sum, f) => sum + f.count, 0);
 
   return (

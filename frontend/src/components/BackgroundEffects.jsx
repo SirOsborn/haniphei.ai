@@ -2,7 +2,10 @@ import React from "react";
 
 const BackgroundEffects = () => {
   return (
-    <>
+    <div
+      className="fixed inset-0 overflow-hidden pointer-events-none z-0"
+      aria-hidden="true"
+    >
       {/* Animated living background */}
       <div className="orb orb-1"></div>
       <div className="orb orb-2"></div>
@@ -25,7 +28,7 @@ const BackgroundEffects = () => {
       <div className="sparkle sparkle-2"></div>
       <div className="sparkle sparkle-3"></div>
       <div className="sparkle sparkle-4"></div>
-    </>
+    </div>
   );
 };
 

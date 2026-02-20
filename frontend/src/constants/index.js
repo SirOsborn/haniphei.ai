@@ -1,13 +1,9 @@
 export const DOCUMENT_TYPES = [
-  "contract",
-  "agreement",
-  "terms & conditions",
-  "policy",
-  "invoice",
-  "receipt",
-  "proposal",
-  "memorandum",
-  "other",
+  "Contract",
+  "Agreement",
+  "Policy",
+  "Proposal",
+  "Scholarship",
 ];
 
 export const USER_TYPES = [

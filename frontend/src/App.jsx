@@ -50,7 +50,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="relative">
       {/* Background Effects */}
       <BackgroundEffects />
 
@@ -67,8 +67,7 @@ function App() {
       />
 
       {/* Main content */}
-      <div className="relative z-10">
-
+      <div className="relative z-10 overflow-x-hidden">
         {/* Profile Page */}
         {navigation.showProfile && (
           <ProfilePage

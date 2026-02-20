@@ -1,7 +1,16 @@
 import React from "react";
 import { USER_TYPES } from "../constants";
 
-const ProfilePage = ({ profileData, profilePhoto, isEditingProfile, onUpdate, onPhotoUpload, onStartEdit, onCancel, onSave }) => {
+const ProfilePage = ({
+  profileData,
+  profilePhoto,
+  isEditingProfile,
+  onUpdate,
+  onPhotoUpload,
+  onStartEdit,
+  onCancel,
+  onSave,
+}) => {
   return (
     <main className="max-w-3xl mx-auto px-8 py-12">
       <div className="glass-card">
