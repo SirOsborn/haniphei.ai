@@ -23,10 +23,7 @@ const RiskCard = ({ risk, expandedRisk, onToggle, riskDetails }) => {
         isExpanded ? `ring-2 ring-${colors.border}/50` : ""
       }`}
     >
-      <div
-        className="p-4 cursor-pointer"
-        onClick={() => onToggle(riskId)}
-      >
+      <div className="p-4 cursor-pointer" onClick={() => onToggle(riskId)}>
         <div className="flex items-start justify-between mb-3">
           <h4 className="text-lg font-semibold text-white">
             {detail.title} ({risk.count})
@@ -98,10 +95,6 @@ const RiskCard = ({ risk, expandedRisk, onToggle, riskDetails }) => {
               </div>
             </div>
           ))}
-          <div className="flex gap-2 mt-4">
-            <button className="btn-secondary text-sm">Explain Risk</button>
-            <button className="btn-secondary text-sm">Suggest Changes</button>
-          </div>
         </div>
       )}
     </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import { USER_TYPES } from "../constants";
 
 const ProfilePage = ({
   profileData,
@@ -103,25 +102,6 @@ const ProfilePage = ({
               <p className="text-gray-300 text-xs mt-1">
                 Email cannot be changed
               </p>
-            </div>
-
-            {/* User Type */}
-            <div>
-              <label className="block text-white text-sm font-semibold mb-2">
-                User Type
-              </label>
-              <select
-                value={profileData.userType}
-                onChange={(e) => onUpdate("userType", e.target.value)}
-                disabled={!isEditingProfile}
-                className="glass-input disabled:opacity-60 disabled:cursor-not-allowed capitalize"
-              >
-                {USER_TYPES.map((type) => (
-                  <option key={type.value} value={type.value}>
-                    {type.label}
-                  </option>
-                ))}
-              </select>
             </div>
 
             {/* Action Buttons */}

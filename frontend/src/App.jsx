@@ -7,6 +7,8 @@ import ScanUploadPage from "./pages/ScanUploadPage";
 import DocumentTypePage from "./pages/DocumentTypePage";
 import ResultsPage from "./pages/ResultsPage";
 import ProfilePage from "./pages/ProfilePage";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
 import { useAppNavigation } from "./hooks/useAppNavigation";
 import { useFileUpload } from "./hooks/useFileUpload";
 import { useDocumentType } from "./hooks/useDocumentType";
@@ -61,9 +63,20 @@ function App() {
         onBack={navigation.goBack}
         showBackButton={navigation.step > STEPS.LANDING}
         showScanButton={
-          navigation.step === STEPS.LANDING && !navigation.showProfile
+          navigation.step === STEPS.LANDING &&
+          !navigation.showProfile &&
+          !navigation.showSignIn &&
+          !navigation.showSignUp
         }
         onScanDocument={handleScanDocument}
+        onGoToSignIn={navigation.goToSignIn}
+        onGoToSignUp={navigation.goToSignUp}
+        showAuthButtons={
+          navigation.step === STEPS.LANDING &&
+          !navigation.showProfile &&
+          !navigation.showSignIn &&
+          !navigation.showSignUp
+        }
       />
 
       {/* Main content */}
@@ -82,17 +95,29 @@ function App() {
           />
         )}
 
+        {/* Sign In Page */}
+        {navigation.showSignIn && (
+          <SignInPage
+            onGoHome={navigation.goToHome}
+            onGoToSignUp={navigation.goToSignUp}
+          />
+        )}
+
+        {/* Sign Up Page */}
+        {navigation.showSignUp && (
+          <SignUpPage
+            onGoHome={navigation.goToHome}
+            onGoToSignIn={navigation.goToSignIn}
+          />
+        )}
+
         {/* Step 1: Landing Page */}
         {navigation.step === STEPS.LANDING &&
           !navigation.showProfile &&
-          !navigation.showAbout && (
+          !navigation.showAbout &&
+          !navigation.showSignIn &&
+          !navigation.showSignUp && (
             <LandingPage
-              activeTab={fileUpload.activeTab}
-              url={fileUpload.url}
-              files={fileUpload.files}
-              onTabSwitch={fileUpload.switchTab}
-              onUrlChange={fileUpload.handleUrlChange}
-              onFileChange={fileUpload.handleFileChange}
               onScanDocument={handleScanDocument}
               onScrollDown={handleScrollDown}
             />
@@ -101,13 +126,11 @@ function App() {
         {/* Step 2: Scan/Upload Page */}
         {navigation.step === STEPS.SCAN &&
           !navigation.showProfile &&
-          !navigation.showAbout && (
+          !navigation.showAbout &&
+          !navigation.showSignIn &&
+          !navigation.showSignUp && (
             <ScanUploadPage
-              activeTab={fileUpload.activeTab}
-              url={fileUpload.url}
               files={fileUpload.files}
-              onTabSwitch={fileUpload.switchTab}
-              onUrlChange={fileUpload.handleUrlChange}
               onFileChange={fileUpload.handleFileChange}
               onBack={navigation.goBack}
               onNext={handleNext}
@@ -138,6 +161,7 @@ function App() {
               onSelectCategory={riskAnalysis.selectCategory}
               onToggleRisk={riskAnalysis.toggleRisk}
               onReset={handleReset}
+              documentType={documentType.documentType}
             />
           )}
       </div>

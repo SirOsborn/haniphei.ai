@@ -3,6 +3,7 @@ import FilterSidebar from "../components/FilterSidebar";
 import RiskCard from "../components/RiskCard";
 import SecurityNotice from "../components/SecurityNotice";
 import { findings, riskDetails } from "../constants/mockData";
+import { exportToPDF } from "../utils/exportPDF";
 
 const ResultsPage = ({
   selectedCategory,
@@ -10,6 +11,7 @@ const ResultsPage = ({
   onSelectCategory,
   onToggleRisk,
   onReset,
+  documentType,
 }) => {
   const totalRisks = findings.reduce((sum, f) => sum + f.count, 0);
 
@@ -71,7 +73,18 @@ const ResultsPage = ({
             <button onClick={onReset} className="btn-primary">
               Scan Another Document
             </button>
-            <button className="btn-secondary">Export Report</button>
+            <button
+              className="btn-secondary"
+              onClick={() =>
+                exportToPDF({
+                  findings,
+                  riskDetails,
+                  documentType: documentType || "Legal Document",
+                })
+              }
+            >
+              Export Report
+            </button>
           </div>
         </div>
       </div>

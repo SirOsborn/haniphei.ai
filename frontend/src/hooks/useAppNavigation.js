@@ -5,11 +5,19 @@ export const useAppNavigation = () => {
   const [step, setStep] = useState(STEPS.LANDING);
   const [showProfile, setShowProfile] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
+
+  const clearOverlays = () => {
+    setShowProfile(false);
+    setShowAbout(false);
+    setShowSignIn(false);
+    setShowSignUp(false);
+  };
 
   const goToStep = (newStep) => {
     setStep(newStep);
-    setShowProfile(false);
-    setShowAbout(false);
+    clearOverlays();
   };
 
   const goBack = () => {
@@ -20,29 +28,42 @@ export const useAppNavigation = () => {
 
   const goToHome = () => {
     setStep(STEPS.LANDING);
-    setShowProfile(false);
-    setShowAbout(false);
+    clearOverlays();
   };
 
   const toggleProfile = () => {
-    setShowProfile(!showProfile);
-    setShowAbout(false);
+    const next = !showProfile;
+    clearOverlays();
+    setShowProfile(next);
+  };
+
+  const goToSignIn = () => {
+    clearOverlays();
+    setShowSignIn(true);
+  };
+
+  const goToSignUp = () => {
+    clearOverlays();
+    setShowSignUp(true);
   };
 
   const reset = () => {
     setStep(STEPS.LANDING);
-    setShowProfile(false);
-    setShowAbout(false);
+    clearOverlays();
   };
 
   return {
     step,
     showProfile,
     showAbout,
+    showSignIn,
+    showSignUp,
     goToStep,
     goBack,
     goToHome,
     toggleProfile,
+    goToSignIn,
+    goToSignUp,
     reset,
   };
 };

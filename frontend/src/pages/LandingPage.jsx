@@ -5,19 +5,8 @@ import AnalyzeIcon from "../components/icons/AnalyzeIcon";
 import ReportIcon from "../components/icons/ReportIcon";
 import ShieldIcon from "../components/icons/ShieldIcon";
 import DocumentIcon from "../components/icons/DocumentIcon";
-import FileUploadZone from "../components/FileUploadZone";
-import FileList from "../components/FileList";
 
-const LandingPage = ({
-  activeTab,
-  url,
-  files,
-  onTabSwitch,
-  onUrlChange,
-  onFileChange,
-  onScanDocument,
-  onScrollDown,
-}) => {
+const LandingPage = ({ onScanDocument, onScrollDown }) => {
   return (
     <main className="max-w-7xl mx-auto px-8 py-12">
       <div className="text-center mb-16">
@@ -33,84 +22,32 @@ const LandingPage = ({
         </p>
       </div>
 
-      {/* URL Scanner Section */}
+      {/* Upload Section */}
       <div className="max-w-2xl mx-auto mb-16">
-        <div className="glass-card">
-          <div className="flex gap-2 mb-6">
-            <button
-              type="button"
-              onClick={() => onTabSwitch("url")}
-              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                activeTab === "url"
-                  ? "bg-primary text-white"
-                  : "text-gray-300 hover:bg-white/5"
-              }`}
+        <div className="glass-card text-center">
+          <p className="text-gray-300 mb-6">
+            Upload your legal document to get started with AI-powered risk
+            analysis.
+          </p>
+          <button
+            onClick={onScanDocument}
+            className="btn-primary px-10 py-4 text-lg flex items-center gap-3 mx-auto"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              URL Scanner
-            </button>
-            <button
-              type="button"
-              onClick={() => onTabSwitch("upload")}
-              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                activeTab === "upload"
-                  ? "bg-primary text-white"
-                  : "text-gray-300 hover:bg-white/5"
-              }`}
-            >
-              File Upload
-            </button>
-          </div>
-
-          {/* URL Scanner Content */}
-          {activeTab === "url" && (
-            <>
-              <div className="mb-4">
-                <label
-                  htmlFor="url-input"
-                  className="block text-sm text-gray-300 mb-2"
-                >
-                  Enter URL to scan
-                </label>
-                <input
-                  id="url-input"
-                  type="text"
-                  placeholder="Any URL will work as an example for now :)"
-                  value={url}
-                  onChange={onUrlChange}
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
-                />
-              </div>
-              <div className="flex gap-3">
-                <button onClick={onScanDocument} className="flex-1 btn-primary">
-                  Scan URL
-                </button>
-                <button className="flex-1 btn-secondary">Discard</button>
-              </div>
-            </>
-          )}
-
-          {/* File Upload Content */}
-          {activeTab === "upload" && (
-            <>
-              <FileUploadZone onFileChange={onFileChange} />
-              {files.length > 0 && (
-                <>
-                  <div className="mt-6">
-                    <FileList files={files} url="" activeTab={activeTab} />
-                  </div>
-                  <div className="flex gap-3 mt-4">
-                    <button
-                      onClick={onScanDocument}
-                      className="flex-1 btn-primary"
-                    >
-                      Scan Document
-                    </button>
-                    <button className="flex-1 btn-secondary">Discard</button>
-                  </div>
-                </>
-              )}
-            </>
-          )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+            Upload Document
+          </button>
 
           <div className="mt-4 text-center">
             <button

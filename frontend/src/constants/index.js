@@ -4,6 +4,7 @@ export const DOCUMENT_TYPES = [
   "Policy",
   "Proposal",
   "Scholarship",
+  "Others",
 ];
 
 export const USER_TYPES = [
