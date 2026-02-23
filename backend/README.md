@@ -110,8 +110,27 @@ backend/
     └── services/         # Business logic layer
         ├── auth.py       # Authentication business logic
         ├── document.py   # Document business logic
-        └── storage.py    # S3/R2 storage service
+        ├── storage.py    # S3/R2 storage service
+        └── ai_service.py # AI service client (NEW - httpx integration)
 ```
+
+## AI Service Integration
+
+**Status**: ✅ **Fully Integrated**
+
+The backend now has complete integration with the AI service:
+- **AI Service Client** (`api/services/ai_service.py`) - Async HTTP client using httpx
+- **Scan Router** (`api/routers/scan.py`) - Real integration (no longer a placeholder)
+- **Error Handling** - Proper timeout, connection, and validation error handling
+- **CORS Configured** - AI service accepts requests from backend
+
+**Key Features**:
+- Forward files and text to AI service for risk analysis
+- Automatic data collection for model training (handled by AI service)
+- Health checks and monitoring
+- Support for Khmer and English documents
+
+**See**: [BACKEND_AI_INTEGRATION.md](../BACKEND_AI_INTEGRATION.md) for complete integration guide
 
 ## How to Run
 
@@ -121,7 +140,7 @@ backend/
     source .venv/bin/activate  # On Windows: .venv\Scripts\activate
     ```
 
-2.  **Install Dependencies**:
+2.  **Install Dependencies** (includes httpx for AI service communication):
     ```bash
     pip install -r requirements.txt
     ```
@@ -130,6 +149,7 @@ backend/
     ```bash
     cp .env.example .env
     # Edit .env with your configuration
+    # Ensure AI_SERVICE_URL is set (default: http://localhost:8082)
     ```
 
 4.  **Run database migrations**:
@@ -137,13 +157,25 @@ backend/
     alembic upgrade head
     ```
 
-5.  **Run the Development Server**:
+5.  **Start AI Service** (in separate terminal):
+    ```bash
+    cd ../ai-service
+    python -m uvicorn main:app --reload --port 8082
+    ```
+
+6.  **Run the Development Server**:
     ```bash
     uvicorn main:app --reload
     ```
     The API will be available at `http://127.0.0.1:8000`.
 
-6.  **Run tests**:
+7.  **Verify Integration**:
+    ```bash
+    # Check AI service health
+    curl http://localhost:8000/api/scan/health
+    ```
+
+8.  **Run tests**:
     ```bash
     pytest
     ```
@@ -164,3 +196,104 @@ Rollback migrations:
 ```bash
 alembic downgrade -1
 ```
+
+## API Endpoints
+
+### Authentication
+- `POST /auth/register` - Create new user account
+- `POST /auth/login` - Login with email/password
+- `POST /auth/logout` - Logout current session
+- `GET /auth/me` - Get current user info
+
+### Document Scanning (AI Integration)
+- `POST /api/scan` - Analyze document or text for risks
+  - Accepts: PDF, DOCX, images, or plain text
+  - Supports: Khmer and English documents
+  - Returns: Risk analysis with categories and context
+- `GET /api/scan/health` - Check AI service status
+
+### Documents (Future)
+- Document management endpoints (to be implemented)
+
+## Environment Variables
+
+Required variables in `.env`:
+
+```bash
+# Database
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/haniphei
+
+# Session/Auth
+SESSION_SECRET_KEY=your-secret-key-min-32-characters-change-in-production
+
+# AI Service Integration
+AI_SERVICE_URL=http://localhost:8082
+
+# File Storage (S3/R2)
+S3_ENDPOINT_URL=https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com
+S3_ACCESS_KEY_ID=your_access_key
+S3_SECRET_ACCESS_KEY=your_secret_key
+S3_BUCKET_NAME=haniphei-documents
+S3_REGION=auto
+
+# CORS
+CORS_ORIGINS=["http://localhost:5173","http://localhost:3000"]
+```
+
+## Integration Guide
+
+### Connecting to AI Service
+
+The backend communicates with the AI service using the `ai_service` client:
+
+```python
+from api.services.ai_service import ai_service
+
+# In your endpoint
+result = await ai_service.scan_document(
+    file_content=file_bytes,
+    filename="contract.pdf",
+    content_type="application/pdf"
+)
+```
+
+**Features:**
+- Automatic timeout handling (60s for scans)
+- Connection error handling
+- Proper error messages for users
+- Health checks
+
+**See**: [BACKEND_AI_INTEGRATION.md](../BACKEND_AI_INTEGRATION.md) for complete guide
+
+## Testing
+
+Run all tests:
+```bash
+pytest
+```
+
+Run with coverage:
+```bash
+pytest --cov=api --cov-report=html
+```
+
+Run specific test file:
+```bash
+pytest tests/unit/test_auth.py
+```
+
+## Development Tips
+
+1. **Code Organization**: Follow the layered architecture strictly
+2. **Error Handling**: Use HTTPException with appropriate status codes
+3. **Logging**: Use Python's logging module to log important events
+4. **Type Hints**: Use type hints for better IDE support and documentation
+5. **Async/Await**: Use async functions for database and external service calls
+6. **Testing**: Write tests for all business logic in services layer
+
+## Additional Resources
+
+- **[PROJECT_BLUEPRINT.md](../PROJECT_BLUEPRINT.md)** - Complete architecture
+- **[BACKEND_AI_INTEGRATION.md](../BACKEND_AI_INTEGRATION.md)** - AI service integration guide
+- **[docs/DATABASE_IMPLEMENTATION.md](./docs/DATABASE_IMPLEMENTATION.md)** - Database schema
+- **[docs/AI_SERVICE_INTEGRATION.md](./docs/AI_SERVICE_INTEGRATION.md)** - Legacy integration spec
