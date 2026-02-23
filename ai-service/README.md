@@ -26,6 +26,8 @@ This directory contains the core AI and ML components for the Haniphei.ai projec
 - `trainer.py`: Continuous training on accumulated LLM-labeled data (multi-label classifier).
 - `pipeline.py`: Hybrid decision logic to choose LLM vs local model.
 - `config.py`: Centralized settings, env vars, and path management.
+- `data_collector.py`: **NEW** - Enhanced data collection with metadata and features.
+- `data_validator.py`: **NEW** - Data quality validation and recommendations.
 - `requirements.txt`: Python dependencies.
 
 ## Folder Structure
@@ -38,14 +40,33 @@ ai-service/
 ├── trainer.py
 ├── pipeline.py
 ├── config.py
+├── data_collector.py          # NEW: Enhanced data collection
+├── data_validator.py          # NEW: Data quality validation
 ├── requirements.txt
-└── README.md
+├── README.md
+├── DATA_SCHEMA.md             # NEW: Data format documentation
+├── DATA_COLLECTION_GUIDE.md   # NEW: Usage guide
+└── data/
+    ├── training.jsonl         # Training data (simple format)
+    ├── metadata.jsonl         # Enhanced metadata & features
+    └── dedup_hashes.txt       # Deduplication tracking
 ```
 
 ## Hybrid Approach Overview
-- **Phase 1 (LLM-first)**: The service uses an LLM to extract risks from text and stores the inputs/outputs for training.
-- **Phase 2 (Continuous Fine-tuning)**: The stored data trains a local multi-label classifier. Accuracy is tracked.
+- **Phase 1 (LLM-first)**: The service uses an LLM to extract risks from text and stores comprehensive training data with metadata.
+- **Phase 2 (Continuous Fine-tuning)**: The stored data trains a local multi-label classifier with enhanced features. Accuracy is tracked.
 - **Phase 3 (Model-first)**: When accuracy meets `ACCURACY_TARGET`, disable LLM and rely on the local model.
+
+### **NEW: Enhanced Data Collection Pipeline**
+The system now automatically collects comprehensive training data:
+- ✅ **Automatic deduplication** - No duplicate training examples
+- ✅ **Language detection** - Tracks Khmer, English, and mixed documents
+- ✅ **Document classification** - Categorizes contract types automatically
+- ✅ **Feature extraction** - Extracts 15+ features for better model training
+- ✅ **Quality validation** - Identifies and flags low-quality samples
+- ✅ **Rich metadata** - Stores document type, language, features, statistics
+
+**See [DATA_COLLECTION_GUIDE.md](DATA_COLLECTION_GUIDE.md) for complete usage guide.**
 
 ## Configuration
 
@@ -150,70 +171,17 @@ uvicorn ai-service.main:app --reload --host 0.0.0.0 --port 8082
 ## API Endpoints
 
 ### POST /scan
-Analyze document or text for project risks.
+Analyze document or text for project risks. **Automatically collects training data.**
 
 **Request (multipart/form-data):**
 - `file`: Optional file upload (PDF, DOCX, or image)
 - `text`: Optional string (plain text input)
 - `force_llm`: Optional boolean (override USE_LLM setting)
 
-**RDevelopment Workflow
-
-### Phase 1: Bootstrap with LLM
-1. Set `USE_LLM=true` in `.env`
-2. Process documents through `/scan` endpoint
-3. Training data automatically accumulates in `data/training.jsonl`
-
-### Phase 2: Train Local Model
-1. After collecting sufficient data (20+ samples recommended)
-2. Call `POST /train` to train the classifier
-3. Monitor `accuracy` and `f1_micro` metrics
-
-### Phase 3: Switch to Local Model
-1. Once accuracy meets `ACCURACY_TARGET` (default: 0.85)
-2. Set `USE_LLM=false` to use trained model
-3. Reduces API costs and improves response time
-
-## Project Integration
-
-This service is designed to work independently. The backend proxies requests to this service:
-
-```
-Frontend → Backend (Port 8000) → AI Service (Port 8082)
-```
-
-**Backend integration requirements:**
-- Set `AI_SERVICE_URL=http://localhost:8082` in backend environment
-- Forward file/text from frontend to `/scan` endpoint
-- Parse and store returned risk data
-- See `backend/docs/AI_SERVICE_INTEGRATION.md` for details
-
-## Troubleshooting
-
-### Tesseract not found
-- Ensure Tesseract is installed
-- Set `TESSERACT_CMD` in `.env` to full path
-
-### Khmer characters not recognized
-- Download and install `khm.traineddata` (see OCR Prerequisites above)
-- Verify with: `tesseract --list-langs` (should show `khm`)
-- Set `TESSERACT_LANG=eng+khm` in `.env`
-
-### LLM returns empty risks
-- Check if `GEMINI_API_KEY` is set correctly
-- Verify text was extracted properly (check service logs)
-- Try with `force_llm=true` parameter
-
-### Low OCR quality
-- Use high-resolution scans (300+ DPI recommended)
-- Ensure good contrast between text and background
-- For Khmer: Use `tessdata_best` instead of `tessdata` for better accuracy
-
-## Additional Resources
-
-- **Khmer OCR Setup**: See [KHMER_OCR_SETUP.md](KHMER_OCR_SETUP.md) for detailed instructions
-- **Backend Integration**: See `../backend/docs/AI_SERVICE_INTEGRATION.md`
-- **Project Overview**: See `../README.md`
+**Response:**
+```json
+{
+  "data": [
     {
       "risk": "Budget constraints may impact delivery",
       "category": "Financial",
@@ -233,12 +201,14 @@ curl -X POST http://localhost:8082/scan \
   -F "text=The project requires payment within 30 days with 10% penalty"
 
 # Text analysis (Khmer)
-curl -X POST http://localhost:8082/scan \
-  -F "text=កិច្ចសន្យានេះតម្រូវឱ្យបង់ប្រាក់ក្នុងរយៈពេល ៣០ ថ្ងៃ"
+curl -X POST http://localhost:8082/scan -F "text=កិច្ចសន្យានេះតម្រូវឱ្យបង់ប្រាក់ក្នុងរយៈពេល ៣០ ថ្ងៃ ដោយមានការលង្ខិតលិខិត"
 
 # File upload (PDF, DOCX, or image)
 curl -X POST http://localhost:8082/scan \
   -F "file=@contract.pdf"
+
+#example
+curl -X POST http://localhost:8082/scan -F "file=@C:\Users\PureGoat\Downloads\506594866-កុងត-រាធ-វើផ-ទះ.pdf"
 ```
 
 ### POST /train
@@ -265,7 +235,78 @@ Service health check and configuration info.
 }
 ```
 
-## Workflow Tips
-- Start with `USE_LLM=true` to bootstrap training data.
-- Periodically call `/train` and monitor metrics.
-- Once metrics meet `ACCURACY_TARGET`, set `USE_LLM=false` to switch off LLM usage.
+### **NEW Data Collection Endpoints**
+
+#### GET /data/stats
+Get comprehensive statistics about collected training data.
+
+**Response:**
+```json
+{
+  "total_samples": 127,
+  "document_types": {"construction_contract": 45, "employment_contract": 32, ...},
+  "languages": {"khmer": 58, "english": 42, "mixed": 27},
+  "risk_categories": {"Financial": 156, "Schedule": 98, ...},
+  "avg_risks_per_doc": 3.5,
+  "avg_text_length": 1456,
+  "date_range": {"earliest": "...", "latest": "..."}
+}
+```
+
+#### GET /data/validate
+Validate dataset quality and get recommendations.
+
+**Response:**
+```json
+{
+  "valid": true,
+  "issues": [],
+  "warnings": ["2 samples have text shorter than 50 chars..."],
+  "recommendations": ["READY FOR TRAINING: Dataset quality is sufficient..."]
+}
+```
+
+#### GET /data/quality-issues
+Identify specific low-quality samples in the dataset.
+
+**Response:**
+```json
+{
+  "total_issues": 3,
+  "issues": [
+    {
+      "index": 15,
+      "text_preview": "...",
+      "reasons": ["Text too short", "No risks identified"]
+    }
+  ]
+}
+```
+
+## Development Workflow
+
+### Phase 1: Bootstrap with LLM
+1. Set `USE_LLM=true` in `.env`
+2. Process documents through `/scan` endpoint
+3. Data automatically collected in:
+   - `data/training.jsonl` (simple format)
+   - `data/metadata.jsonl` (enhanced with features)
+   - `data/dedup_hashes.txt` (deduplication)
+
+### Phase 2: Monitor & Validate
+1. Check collection progress: `GET /data/stats`
+2. Validate quality: `GET /data/validate`
+3. Review issues: `GET /data/quality-issues`
+4. Aim for 50-100+ diverse samples
+
+### Phase 3: Train Local Model
+1. After collecting sufficient data (50+ samples recommended)
+2. Call `POST /train` to train the classifier
+3. Monitor `accuracy` and `f1_micro` metrics
+4. Model now uses enhanced features for better accuracy
+
+### Phase 4: Switch to Local Model
+1. Once accuracy meets `ACCURACY_TARGET` (default: 0.85)
+2. Set `USE_LLM=false` to use trained model
+3. Reduces API costs to zero and improves response time
+4. Continue collecting data for periodic retraining

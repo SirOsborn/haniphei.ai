@@ -25,22 +25,26 @@ The system focuses on delivering these insights within optimized performance par
 
 ### For Specific Teams
 - **[frontend/BACKEND_API_INTEGRATION.md](./frontend/BACKEND_API_INTEGRATION.md)** - Frontend team: How to integrate with backend
-- **[backend/AI_SERVICE_INTEGRATION.md](./backend/AI_SERVICE_INTEGRATION.md)** - Backend team: How to integrate with AI service
+- **[BACKEND_AI_INTEGRATION.md](./BACKEND_AI_INTEGRATION.md)** - Backend ↔ AI Service integration guide
 - **[ai-service/README.md](./ai-service/README.md)** - AI service: Configuration, hybrid approach, OCR setup
+- **[ai-service/DATA_COLLECTION_GUIDE.md](./ai-service/DATA_COLLECTION_GUIDE.md)** - Enhanced data collection pipeline usage
+- **[ai-service/DATA_SCHEMA.md](./ai-service/DATA_SCHEMA.md)** - Training data schema reference
 
 ## Architecture
 
 The project is divided into three main components:
 
 1.  **[Frontend](./frontend/README.md)**: React + Vite + TailwindCSS UI for document upload and risk visualization (Port: 5173)
-2.  **[Backend](./backend/README.md)**: FastAPI server for authentication, database, and proxying to AI service (Port: 8000)
+2.  **[Backend](./backend/README.md)**: FastAPI server for authentication, database, and AI service integration (Port: 8000)
 3.  **[AI Service](./ai-service/README.md)**: Hybrid AI engine with OCR, LLM (Gemini/Ollama), and ML model training (Port: 8082)
 
 **Tech Highlights**:
 - 🆓 **Free LLM**: Google Gemini (cloud) or Ollama (local)
 - 🔄 **Hybrid AI**: Starts with LLM, transitions to local model as it learns
 - 🌏 **Bilingual**: Full support for English and Khmer (ភាសាខ្មែរ) documents
+- 📊 **Smart Data Collection**: Automatic training data collection with metadata and quality validation
 - 🎯 **Student-Friendly**: Deployable on free tiers (Vercel, Render, etc.)
+- 💰 **Cost-Effective**: Train your own model to eliminate API costs
 
 For detailed information about each component, please refer to the `README.md` file within its respective directory.
 

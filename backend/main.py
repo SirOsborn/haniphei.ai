@@ -7,11 +7,21 @@ from api.routers import scan, documents, auth
 from api.core.config import settings
 from api.core.database import init_db
 from api.controllers import auth, document, user
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
+    # Try to initialize database, but don't fail if it's not available
+    try:
+        await init_db()
+        logger.info("✅ Database initialized successfully")
+    except Exception as e:
+        logger.warning(f"⚠️  Database initialization failed: {e}")
+        logger.warning("⚠️  Running without database - authentication features will not work")
+        logger.warning("⚠️  AI service integration will still work for testing")
     yield
 
 
