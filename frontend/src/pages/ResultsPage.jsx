@@ -2,21 +2,71 @@ import React from "react";
 import FilterSidebar from "../components/FilterSidebar";
 import RiskCard from "../components/RiskCard";
 import SecurityNotice from "../components/SecurityNotice";
-import { findings, riskDetails } from "../constants/mockData";
 import { exportToPDF } from "../utils/exportPDF";
 
 const ResultsPage = ({
+  scanResult,
   selectedCategory,
   expandedRisk,
   onSelectCategory,
   onToggleRisk,
   onReset,
   documentType,
+  isScanning,
+  scanError,
 }) => {
-  const totalRisks = findings.reduce((sum, f) => sum + f.count, 0);
+  const risks = scanResult?.risks || [];
+
+  // Group by category to create sidebar summaries
+  const categoryMap = risks.reduce((acc, risk) => {
+    const category = risk.category || "Other";
+    if (!acc[category]) {
+      acc[category] = { id: category, category, count: 0, detail: null };
+    }
+    acc[category].count += 1;
+
+    // Save a representative detail for the category (first risk)
+    if (!acc[category].detail) {
+      acc[category].detail = {
+        title: category,
+        riskLevel: "Medium Risk",
+        description: risk.context || risk.risk || "No detail provided.",
+        excerpts: [
+          {
+            text: risk.context || "",
+            highlight: "",
+            section: "",
+          },
+        ],
+      };
+    }
+
+    return acc;
+  }, {});
+
+  const findings = Object.values(categoryMap);
+  const totalRisks = risks.length;
+
+  // Build a riskDetails map keyed by category
+  const riskDetails = findings.reduce((acc, f) => {
+    acc[f.id] = f.detail;
+    return acc;
+  }, {});
 
   return (
     <main className="max-w-7xl mx-auto px-8 py-8">
+      {/* Scan status */}
+      {(isScanning || scanError) && (
+        <div className="glass-card mb-6 p-4">
+          {isScanning && (
+            <div className="text-sm text-white">Analyzing document… please wait.</div>
+          )}
+          {scanError && (
+            <div className="text-sm text-red-300">Error: {scanError}</div>
+          )}
+        </div>
+      )}
+
       {/* Results Header */}
       <div className="glass-card mb-6 bg-gradient-to-r from-primary/20 to-transparent">
         <div className="flex items-center justify-between">

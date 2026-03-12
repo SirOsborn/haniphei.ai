@@ -1,24 +1,31 @@
 import React, { useState } from "react";
 import ShieldIcon from "../components/icons/ShieldIcon";
+import { useAuth } from "../hooks/useAuth";
 
 const SignInPage = ({ onGoHome, onGoToSignUp }) => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const { login, loading, error: authError } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
       setError("Please fill in all fields.");
       return;
     }
-    // TODO: connect to backend auth
-    onGoHome();
+
+    try {
+      await login(form.email, form.password);
+      onGoHome();
+    } catch (err) {
+      setError(err.message || "Login failed");
+    }
   };
 
   return (
@@ -241,7 +248,7 @@ const SignInPage = ({ onGoHome, onGoToSignUp }) => {
             </div>
 
             {/* Error */}
-            {error && (
+            {error || authError ? (
               <p
                 style={{
                   color: "#f87171",
@@ -250,9 +257,9 @@ const SignInPage = ({ onGoHome, onGoToSignUp }) => {
                   textAlign: "center",
                 }}
               >
-                {error}
+                {error || authError}
               </p>
-            )}
+            ) : null}
 
             {/* Submit */}
             <button
@@ -265,6 +272,7 @@ const SignInPage = ({ onGoHome, onGoToSignUp }) => {
                 fontWeight: 600,
                 marginTop: "4px",
               }}
+              disabled={loading}
             >
               Sign In
             </button>
