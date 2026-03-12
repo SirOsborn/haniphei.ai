@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import BackgroundEffects from "./components/BackgroundEffects";
 import Header from "./components/Header";
 import CookieConsent from "./components/CookieConsent";
@@ -14,6 +14,7 @@ import { useFileUpload } from "./hooks/useFileUpload";
 import { useDocumentType } from "./hooks/useDocumentType";
 import { useProfile } from "./hooks/useProfile";
 import { useRiskAnalysis } from "./hooks/useRiskAnalysis";
+import { scanDocument } from "./services/apiClient";
 import { STEPS } from "./constants";
 
 function App() {
@@ -23,6 +24,10 @@ function App() {
   const documentType = useDocumentType();
   const profile = useProfile();
   const riskAnalysis = useRiskAnalysis();
+
+  const [scanResult, setScanResult] = useState(null);
+  const [scanError, setScanError] = useState(null);
+  const [isScanning, setIsScanning] = useState(false);
 
   // Navigation handlers
   const handleScanDocument = () => {
@@ -36,11 +41,33 @@ function App() {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (navigation.step === STEPS.SCAN) {
       navigation.goToStep(STEPS.DOCUMENT_TYPE);
-    } else if (navigation.step === STEPS.DOCUMENT_TYPE) {
-      navigation.goToStep(STEPS.RESULTS);
+      return;
+    }
+
+    if (navigation.step === STEPS.DOCUMENT_TYPE) {
+      // Perform scan by calling backend -> AI service
+      if (!fileUpload.files.length) {
+        setScanError("No file selected");
+        return;
+      }
+
+      setIsScanning(true);
+      setScanError(null);
+      try {
+        const formData = new FormData();
+        formData.append("file", fileUpload.files[0]);
+
+        const result = await scanDocument(formData);
+        setScanResult(result);
+        navigation.goToStep(STEPS.RESULTS);
+      } catch (err) {
+        setScanError(err.message || "Scan failed");
+      } finally {
+        setIsScanning(false);
+      }
     }
   };
 
@@ -49,6 +76,8 @@ function App() {
     fileUpload.reset();
     documentType.reset();
     riskAnalysis.reset();
+    setScanResult(null);
+    setScanError(null);
   };
 
   return (
@@ -156,12 +185,15 @@ function App() {
           !navigation.showProfile &&
           !navigation.showAbout && (
             <ResultsPage
+              scanResult={scanResult}
               selectedCategory={riskAnalysis.selectedCategory}
               expandedRisk={riskAnalysis.expandedRisk}
               onSelectCategory={riskAnalysis.selectCategory}
               onToggleRisk={riskAnalysis.toggleRisk}
               onReset={handleReset}
               documentType={documentType.documentType}
+              isScanning={isScanning}
+              scanError={scanError}
             />
           )}
       </div>
