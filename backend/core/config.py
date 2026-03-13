@@ -71,6 +71,19 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: List[str] = ["http://localhost:5173", "http://localhost:3000"]
 
+    @field_validator("cors_origins", mode="before")
+    @classmethod
+    def validate_cors_origins(cls, v):
+        if isinstance(v, str):
+            import json
+            try:
+                # Try to parse as JSON list: ["url1", "url2"]
+                return json.loads(v)
+            except json.JSONDecodeError:
+                # Fallback to comma-separated: url1,url2
+                return [i.strip() for i in v.split(",")]
+        return v
+
     # Data directory for training and metadata
     data_dir: str = "backend/data"
     training_file: str = "backend/data/training.jsonl"
