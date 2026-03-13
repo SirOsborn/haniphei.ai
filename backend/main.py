@@ -3,10 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from scalar_fastapi import get_scalar_api_reference
 
-from api.routers import scan, documents, auth
-from api.core.config import settings
-from api.core.database import init_db
-from api.controllers import auth, document, user
+from routers import scan, documents, auth, user
+from core.config import settings
+from core.database import init_db
 import logging
 
 logger = logging.getLogger(__name__)
@@ -38,21 +37,16 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://haniphei.ai",           # Your production domain
-        "https://www.haniphei.ai",       # WWW subdomain
-        "http://localhost:5173",         # Local development (Vite)
-        "http://localhost:3000",         # Local development (React)
+        "https://haniphei.ai",
+        "https://www.haniphei.ai",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
     ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],  # Only needed methods
-    allow_headers=[
-        "Authorization",
-        "Content-Type",
-        "Accept",
-        "Origin",
-        "User-Agent",
-    ],
-    max_age=600,  # Cache preflight response for 10 minutes
+    allow_methods=["*"],
+    allow_headers=["*"],
+    max_age=600,
 )
 
 app.include_router(auth.router, prefix="/api/auth")
@@ -66,8 +60,15 @@ def read_root():
         "message": "Welcome to the Haniphei.ai API",
         "version": settings.app_version,
         "docs": "/docs",
-        "redoc": "/redoc"
+        "redoc": "/redoc",
+        "llm_provider": settings.llm_provider,
+        "use_llm": settings.use_llm,
     }
+
+# Simple CORS test endpoint
+@app.get("/ping", tags=["test"])
+def ping():
+    return {"ping": "pong"}
 
 
 @app.get("/health", tags=["health"])

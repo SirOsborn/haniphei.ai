@@ -7,20 +7,18 @@ export const useScanSubmission = () => {
   const [results, setResults] = useState(null);
 
   // Function: Submit scan
-  const submitScan = async (file, text, token) => {
+  const submitScan = async (file, text) => {
     setLoading(true);
     setError(null);
 
     try {
-      // Create FormData object
-      // Add file to FormData if provided
-      // Add text to FormData if provided
+      const formData = new FormData();
+      if (file) formData.append("file", file);
+      if (text) formData.append("text", text);
       
-      // Call scanDocument from apiClient
-      // Get back: { scan_id, risks, source, timestamp }
-      
-      // Save results to state
-      return results;
+      const result = await scanDocument(formData);
+      setResults(result);
+      return result;
     } catch (err) {
       setError(err.message);
       throw err;

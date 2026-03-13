@@ -1,14 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getUserProfile } from "../services/apiClient";
 
 const defaultProfileData = {
-  firstName: "John",
-  lastName: "Doe",
-  email: "john.doe@example.com",
-  userType: "freelancer",
+  email: "",
 };
 
 export const useProfile = () => {
   const [profileData, setProfileData] = useState(defaultProfileData);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const data = await getUserProfile();
+        setProfileData(data);
+      } catch (err) {
+        setError("Failed to load profile.");
+      }
+      setLoading(false);
+    };
+    fetchProfile();
+  }, []);
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
@@ -43,12 +58,7 @@ export const useProfile = () => {
 
   return {
     profileData,
-    profilePhoto,
-    isEditingProfile,
-    updateProfile,
-    handlePhotoUpload,
-    startEditing,
-    cancelEditing,
-    saveProfile,
+    loading,
+    error,
   };
 };

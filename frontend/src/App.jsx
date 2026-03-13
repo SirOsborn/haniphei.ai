@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "./hooks/useAuth";
 import BackgroundEffects from "./components/BackgroundEffects";
 import Header from "./components/Header";
 import CookieConsent from "./components/CookieConsent";
@@ -22,12 +23,13 @@ function App() {
   const navigation = useAppNavigation();
   const fileUpload = useFileUpload();
   const documentType = useDocumentType();
-  const profile = useProfile();
   const riskAnalysis = useRiskAnalysis();
+  const { user, logout } = useAuth();
 
   const [scanResult, setScanResult] = useState(null);
   const [scanError, setScanError] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
+  const [textInput, setTextInput] = useState("");
 
   // Navigation handlers
   const handleScanDocument = () => {
@@ -43,28 +45,36 @@ function App() {
 
   const handleNext = async () => {
     if (navigation.step === STEPS.SCAN) {
+      if ((!fileUpload.files || fileUpload.files.length === 0) && !textInput.trim()) {
+        setScanError("Please upload a file or enter text to scan.");
+        return;
+      }
+      setScanError(null);
       navigation.goToStep(STEPS.DOCUMENT_TYPE);
       return;
     }
 
     if (navigation.step === STEPS.DOCUMENT_TYPE) {
-      // Perform scan by calling backend -> AI service
-      if (!fileUpload.files.length) {
-        setScanError("No file selected");
-        return;
-      }
-
+      // Perform scan by calling backend
       setIsScanning(true);
       setScanError(null);
+      navigation.goToStep(STEPS.RESULTS);
+
       try {
         const formData = new FormData();
-        formData.append("file", fileUpload.files[0]);
+        if (fileUpload.files && fileUpload.files.length > 0) {
+          formData.append("file", fileUpload.files[0]);
+        } else if (textInput.trim()) {
+          formData.append("text", textInput);
+        }
+        
+        formData.append("document_type", documentType.documentType);
 
         const result = await scanDocument(formData);
         setScanResult(result);
-        navigation.goToStep(STEPS.RESULTS);
       } catch (err) {
-        setScanError(err.message || "Scan failed");
+        console.error("Scan error:", err);
+        setScanError(err.message || "An error occurred during document analysis.");
       } finally {
         setIsScanning(false);
       }
@@ -72,20 +82,19 @@ function App() {
   };
 
   const handleReset = () => {
-    navigation.reset();
+    navigation.goToStep(STEPS.LANDING);
     fileUpload.reset();
     documentType.reset();
     riskAnalysis.reset();
     setScanResult(null);
     setScanError(null);
+    setIsScanning(false);
+    setTextInput("");
   };
 
   return (
     <div className="relative">
-      {/* Background Effects */}
       <BackgroundEffects />
-
-      {/* Header - Outside main content for proper stacking */}
       <Header
         onGoHome={navigation.goToHome}
         onToggleProfile={navigation.toggleProfile}
@@ -104,42 +113,32 @@ function App() {
           navigation.step === STEPS.LANDING &&
           !navigation.showProfile &&
           !navigation.showSignIn &&
-          !navigation.showSignUp
+          !navigation.showSignUp && !user
         }
+        user={user}
+        onLogout={logout}
       />
-
-      {/* Main content */}
       <div className="relative z-10 overflow-x-hidden">
         {/* Profile Page */}
-        {navigation.showProfile && (
+        {user && navigation.showProfile && (
           <ProfilePage
-            profileData={profile.profileData}
-            profilePhoto={profile.profilePhoto}
-            isEditingProfile={profile.isEditingProfile}
-            onUpdate={profile.updateProfile}
-            onPhotoUpload={profile.handlePhotoUpload}
-            onStartEdit={profile.startEditing}
-            onCancel={profile.cancelEditing}
-            onSave={profile.saveProfile}
+            user={user}
           />
         )}
-
         {/* Sign In Page */}
-        {navigation.showSignIn && (
+        {!user && navigation.showSignIn && (
           <SignInPage
             onGoHome={navigation.goToHome}
             onGoToSignUp={navigation.goToSignUp}
           />
         )}
-
         {/* Sign Up Page */}
-        {navigation.showSignUp && (
+        {!user && navigation.showSignUp && (
           <SignUpPage
             onGoHome={navigation.goToHome}
             onGoToSignIn={navigation.goToSignIn}
           />
         )}
-
         {/* Step 1: Landing Page */}
         {navigation.step === STEPS.LANDING &&
           !navigation.showProfile &&
@@ -151,7 +150,6 @@ function App() {
               onScrollDown={handleScrollDown}
             />
           )}
-
         {/* Step 2: Scan/Upload Page */}
         {navigation.step === STEPS.SCAN &&
           !navigation.showProfile &&
@@ -161,11 +159,12 @@ function App() {
             <ScanUploadPage
               files={fileUpload.files}
               onFileChange={fileUpload.handleFileChange}
+              textInput={textInput}
+              onTextChange={setTextInput}
               onBack={navigation.goBack}
               onNext={handleNext}
             />
           )}
-
         {/* Step 3: Document Type Selection */}
         {navigation.step === STEPS.DOCUMENT_TYPE &&
           !navigation.showProfile &&
@@ -179,7 +178,6 @@ function App() {
               onNext={handleNext}
             />
           )}
-
         {/* Step 4: Results Page */}
         {navigation.step === STEPS.RESULTS &&
           !navigation.showProfile &&
@@ -197,11 +195,9 @@ function App() {
             />
           )}
       </div>
-
       {/* Cookie Consent Banner */}
       <CookieConsent />
     </div>
   );
 }
-
 export default App;
