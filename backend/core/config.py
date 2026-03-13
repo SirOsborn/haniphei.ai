@@ -1,3 +1,4 @@
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional, List
 
@@ -12,6 +13,18 @@ class Settings(BaseSettings):
 
     # Database
     database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/haniphei"
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def validate_database_url(cls, v: str) -> str:
+        if v and v.startswith("postgresql://"):
+            return v.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return v
+
+    # JWT Authentication
+    jwt_secret: str = "4e1de1bc9d9592bf0b54bffc8facd1a9"  # Default for dev
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
 
     # Session Authentication
     session_secret_key: str
