@@ -42,6 +42,7 @@ app.add_middleware(
     allow_headers=["*"],
     max_age=600,
 )
+print("CORS origins:", settings.cors_origins)
 
 app.include_router(auth.router, prefix="/api/auth")
 app.include_router(scan.router, prefix="/api")
