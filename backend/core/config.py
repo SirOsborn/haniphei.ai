@@ -81,11 +81,14 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             import json
             try:
-                # Try to parse as JSON list: ["url1", "url2"]
-                return json.loads(v)
+                parsed = json.loads(v)
+                print("Parsed CORS origins from env:", parsed)
+                return parsed
             except json.JSONDecodeError:
-                # Fallback to comma-separated: url1,url2
-                return [i.strip() for i in v.split(",")]
+                parsed = [i.strip() for i in v.split(",")]
+                print("Parsed CORS origins from comma-separated env:", parsed)
+                return parsed
+        print("CORS origins from config:", v)
         return v
 
     # Data directory for training and metadata
