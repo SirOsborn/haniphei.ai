@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import ShieldIcon from "../components/icons/ShieldIcon";
+import { useAuth } from "../hooks/useAuth";
 
 const SignUpPage = ({ onGoHome, onGoToSignIn }) => {
   const [form, setForm] = useState({
-    name: "",
     email: "",
     password: "",
     confirm: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const { signup, loading, error: authError } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.password || !form.confirm) {
+    if (!form.email || !form.password || !form.confirm) {
       setError("Please fill in all fields.");
       return;
     }
@@ -30,8 +31,12 @@ const SignUpPage = ({ onGoHome, onGoToSignIn }) => {
       setError("Password must be at least 8 characters.");
       return;
     }
-    // TODO: connect to backend auth
-    onGoHome();
+    try {
+      await signup(form.email, form.password);
+      onGoHome();
+    } catch (err) {
+      setError(err.message || "Registration failed. Please try again.");
+    }
   };
 
   const inputStyle = {
@@ -112,27 +117,7 @@ const SignUpPage = ({ onGoHome, onGoToSignIn }) => {
             onSubmit={handleSubmit}
             style={{ display: "flex", flexDirection: "column", gap: "18px" }}
           >
-            {/* Full Name */}
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
-            >
-              <label style={labelStyle}>FULL NAME</label>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="John Doe"
-                autoComplete="name"
-                style={inputStyle}
-                onFocus={(e) =>
-                  (e.target.style.borderColor = "rgba(99,102,241,0.7)")
-                }
-                onBlur={(e) =>
-                  (e.target.style.borderColor = "rgba(255,255,255,0.15)")
-                }
-              />
-            </div>
+            {/* ...existing code... */}
 
             {/* Email */}
             <div

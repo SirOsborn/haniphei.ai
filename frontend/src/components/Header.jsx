@@ -1,5 +1,6 @@
 import React from "react";
 import ShieldIcon from "./icons/ShieldIcon";
+import AccountDropdown from "./AccountDropdown";
 
 const Header = ({
   onGoHome,
@@ -11,6 +12,8 @@ const Header = ({
   onGoToSignIn,
   onGoToSignUp,
   showAuthButtons,
+  user,
+  onLogout,
 }) => {
   return (
     <header className="sticky top-0 py-4 px-8 z-[100] backdrop-blur-xl bg-[#06060A]/95 border-b border-white/5">
@@ -28,10 +31,14 @@ const Header = ({
           <button onClick={onGoHome} className="btn-secondary">
             Home
           </button>
-          <button onClick={onToggleProfile} className="btn-secondary">
-            Profile
-          </button>
-          {showAuthButtons && (
+          {user && (
+            <AccountDropdown 
+              user={user} 
+              onLogout={onLogout} 
+              onToggleProfile={onToggleProfile} 
+            />
+          )}
+          {!user && showAuthButtons && (
             <button onClick={onGoToSignIn} className="btn-secondary">
               Sign In
             </button>
