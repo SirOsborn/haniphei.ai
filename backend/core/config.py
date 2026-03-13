@@ -69,7 +69,11 @@ class Settings(BaseSettings):
     allowed_extensions: List[str] = [".pdf", ".docx", ".jpg", ".jpeg", ".png"]
 
     # CORS
-    cors_origins: List[str] = ["http://localhost:5173", "http://localhost:3000"]
+    cors_origins: List[str] = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://hanipheiai.up.railway.app"
+    ]
 
     @field_validator("cors_origins", mode="before")
     @classmethod
