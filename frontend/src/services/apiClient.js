@@ -1,4 +1,8 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "";
+// Check if API_BASE_URL is set in production
+if (import.meta.env.PROD && !API_BASE_URL) {
+  console.warn("VITE_API_URL is not defined in production build!");
+}
 
 export const scanDocument = async (formData) => {
   try {
