@@ -46,14 +46,14 @@ function CookieConsent() {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-white mb-2">
-                We Value Your Privacy
+                Help Us Improve Haniphei.ai
               </h3>
               <p className="text-gray-300 text-sm">
-                We use cookies and similar technologies to improve your
-                experience, analyze website traffic, and provide personalized
-                content. By clicking "Accept", you consent to our use of
-                cookies. Your document data is never stored or shared with third
-                parties.
+                We use cookies to enhance your experience. With your permission,
+                we would also like to store your uploaded documents securely to
+                improve our risk detection models. We will <b>never</b> share
+                your data with third parties. You can decline and still use the
+                app normally.
               </p>
             </div>
           </div>

@@ -1,5 +1,5 @@
-/* Import Inter font for professional look */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+/* Import Inter and Kantumruy Pro for professional Khmer support */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -124,12 +124,18 @@
   }
 
   .glass-card {
-    @apply glass rounded-2xl p-6;
+    @apply rounded-2xl p-6;
     background: linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.04) 0%,
-      rgba(255, 255, 255, 0.02) 100%
+      rgba(20, 20, 25, 0.95) 0%,
+      rgba(15, 15, 20, 0.92) 100%
     );
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+      0 20px 50px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
     color: #f1f5f9;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
