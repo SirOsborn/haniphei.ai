@@ -35,9 +35,9 @@ class Settings(BaseSettings):
     session_secret_key: str = "jgyythajgyyjghahkilozin168jahhhokayot" # Default if not set
     session_cookie_name: str = "session"
     session_max_age: int = 1800  # 30 minutes in seconds
-    session_cookie_secure: bool = False  # Set to True in production with HTTPS
+    session_cookie_secure: bool = True  # Must be True for SameSite=None
     session_cookie_httponly: bool = True
-    session_cookie_samesite: str = "lax"
+    session_cookie_samesite: str = "none" # Required for cross-site subdomains
 
     # AI Service Settings
     ai_service_url: str = "http://localhost:8082"
