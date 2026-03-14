@@ -16,10 +16,13 @@ class Settings(BaseSettings):
 
     @field_validator("database_url", mode="before")
     @classmethod
-    def validate_database_url(cls, v: str) -> str:
-        if v and v.startswith("postgres://"):
+    def validate_database_url(cls, v: Optional[str]) -> str:
+        if not v:
+            return "postgresql+asyncpg://postgres:postgres@localhost:5432/haniphei"
+        
+        if v.startswith("postgres://"):
             return v.replace("postgres://", "postgresql+asyncpg://", 1)
-        elif v and v.startswith("postgresql://"):
+        elif v.startswith("postgresql://"):
             return v.replace("postgresql://", "postgresql+asyncpg://", 1)
         return v
 
@@ -29,7 +32,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
 
     # Session Authentication
-    session_secret_key: str
+    session_secret_key: str = "jgyythajgyyjghahkilozin168jahhhokayot" # Default if not set
     session_cookie_name: str = "session"
     session_max_age: int = 1800  # 30 minutes in seconds
     session_cookie_secure: bool = False  # Set to True in production with HTTPS
