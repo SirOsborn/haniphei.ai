@@ -49,7 +49,7 @@ const AccountDropdown = ({ user, onLogout, onToggleProfile }) => {
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           ></div>
-          <div className="absolute right-0 mt-3 w-80 z-50 glass-card p-4 shadow-2xl animate-in fade-in zoom-in duration-200">
+          <div className="absolute right-0 mt-3 w-80 z-50 glass-menu p-4 shadow-2xl animate-in fade-in zoom-in duration-200">
             <div className="flex flex-col gap-4">
               <div className="pb-3 border-b border-white/5">
                 <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Registered Email</p>
