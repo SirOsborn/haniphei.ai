@@ -30,4 +30,4 @@ COPY . .
 EXPOSE ${PORT}
 
 # Command to run the application using the dynamic PORT
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT}
+CMD python -m uvicorn main:app --host 0.0.0.0 --port ${PORT}

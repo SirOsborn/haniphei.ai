@@ -1,3 +1,10 @@
+import sys
+import os
+
+print(">>> BACKEND STARTUP INITIATED")
+print(f">>> ENV PORT: {os.getenv('PORT')}")
+sys.stdout.flush()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
